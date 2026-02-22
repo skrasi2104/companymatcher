@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)file:///C:/Users/simon/Downloads/index_1.html -->
+<html lang="cs"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Company Matcher PRO</title>
+<script src="./Company Matcher PRO_files/xlsx.full.min.js.stažený soubor"></script>
+<link href="./Company Matcher PRO_files/css2" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f6f8;--bg2:#ffffff;--bg3:#f0f2f5;
+  --border:#e2e5ea;--border2:#d0d5dd;
+  --text:#0f1721;--text2:#4b5563;--text3:#9ca3af;
+  --accent:#2563eb;--accent-light:#eff4ff;--accent-hover:#1d4ed8;
+  --green:#16a34a;--green-light:#f0fdf4;
+  --red:#dc2626;--red-light:#fef2f2;
+  --purple:#7c3aed;--purple-light:#f5f3ff;
+  --orange:#d97706;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg3);}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+
+/* Sidebar */
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;box-shadow:var(--shadow);}
+.logo{padding:1.4rem 1.25rem 1.2rem;border-bottom:1px solid var(--border);}
+.logo-main{font-size:1rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:.5rem;}
+.logo-icon{width:28px;height:28px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;flex-shrink:0;}
+.logo-sub{font-size:.7rem;color:var(--text3);margin-top:.2rem;margin-left:36px;}
+.logo-badge{display:inline-block;background:var(--accent-light);color:var(--accent);font-size:.6rem;font-weight:600;padding:.15rem .45rem;border-radius:4px;margin-top:.4rem;margin-left:36px;}
+.steps{flex:1;padding:.75rem 0;}
+.step{padding:.6rem 1.25rem;display:flex;gap:.7rem;align-items:flex-start;border-left:3px solid transparent;transition:all .15s;}
+.step.active{border-left-color:var(--accent);background:var(--accent-light);}
+.step.done{opacity:.45;}
+.snum{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:600;color:var(--text3);flex-shrink:0;margin-top:1px;background:var(--bg2);}
+.step.active .snum{background:var(--accent);border-color:var(--accent);color:#fff;}
+.step.done .snum{background:var(--green);border-color:var(--green);color:#fff;}
+.st{font-size:.78rem;font-weight:600;color:var(--text);}
+.sd{font-size:.68rem;color:var(--text3);margin-top:.1rem;line-height:1.4;}
+.sfoot{padding:.85rem 1.25rem;border-top:1px solid var(--border);font-size:.68rem;color:var(--text3);line-height:1.65;}
+
+/* Main */
+.main{padding:2rem 1.75rem;display:flex;flex-direction:column;gap:1.25rem;max-width:1060px;}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;box-shadow:var(--shadow);}
+.ptitle{font-size:.7rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6rem;}
+.ptitle::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* Upload cards */
+.ugrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.85rem;}
+.ucard{border:2px dashed var(--border2);border-radius:10px;padding:1.5rem 1rem 1.25rem;text-align:center;cursor:pointer;transition:all .2s;user-select:none;background:var(--bg3);position:relative;}
+.ucard:hover,.ucard.drag{border-color:var(--accent);background:var(--accent-light);}
+.ucard.loaded-a{border-style:solid;border-color:var(--accent);background:var(--accent-light);}
+.ucard.loaded-c{border-style:solid;border-color:var(--purple);background:var(--purple-light);}
+.ucard.loaded-b{border-style:solid;border-color:var(--green);background:var(--green-light);}
+.ucard-badge{position:absolute;top:.55rem;right:.55rem;font-size:.6rem;font-weight:600;padding:.15rem .45rem;border-radius:20px;display:none;}
+.ucard.loaded-a .ucard-badge{display:inline-block;background:var(--accent-light);color:var(--accent);border:1px solid #bfdbfe;}
+.ucard.loaded-c .ucard-badge{display:inline-block;background:var(--purple-light);color:var(--purple);border:1px solid #ddd6fe;}
+.ucard.loaded-b .ucard-badge{display:inline-block;background:var(--green-light);color:var(--green);border:1px solid #bbf7d0;}
+.uicon{width:40px;height:40px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin:0 auto .65rem;box-shadow:var(--shadow);}
+.ulabel{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.2rem;}
+.ulabel-opt{font-size:.65rem;font-weight:400;color:var(--text3);}
+.usub{font-size:.69rem;color:var(--text3);}
+.ufile{font-size:.72rem;font-weight:500;word-break:break-all;margin-top:.45rem;}
+.ucard.loaded-a .ufile{color:var(--accent);}
+.ucard.loaded-c .ufile{color:var(--purple);}
+.ucard.loaded-b .ufile{color:var(--green);}
+.umeta{font-size:.65rem;color:var(--text3);margin-top:.12rem;}
+.ucard-hint{font-size:.63rem;color:var(--text3);margin-top:.65rem;padding-top:.55rem;border-top:1px dashed var(--border2);}
+.ucard.loaded-a .ucard-hint,.ucard.loaded-c .ucard-hint,.ucard.loaded-b .ucard-hint{display:none;}
+
+/* Source badges in table */
+.src-p{display:inline-flex;align-items:center;gap:.25rem;background:var(--accent-light);color:var(--accent);border:1px solid #bfdbfe;font-size:.63rem;font-weight:600;padding:.15rem .45rem;border-radius:4px;white-space:nowrap;}
+.src-s{display:inline-flex;align-items:center;gap:.25rem;background:var(--purple-light);color:var(--purple);border:1px solid #ddd6fe;font-size:.63rem;font-weight:600;padding:.15rem .45rem;border-radius:4px;white-space:nowrap;}
+
+/* Column selects */
+.sgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.85rem;margin-top:1rem;}
+.sgrid-divider{grid-column:1/-1;height:1px;background:var(--border);margin:.1rem 0;}
+.flabel{display:block;font-size:.71rem;font-weight:500;color:var(--text2);margin-bottom:.35rem;}
+select{background:var(--bg2);border:1.5px solid var(--border2);color:var(--text);border-radius:8px;padding:.48rem .75rem;font-family:inherit;font-size:.8rem;width:100%;cursor:pointer;transition:border .15s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%239ca3af' d='M5 7L0 2h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .65rem center;}
+select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+
+/* Options */
+.optrow{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+.togrow{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--text2);cursor:pointer;}
+.tog{position:relative;width:36px;height:20px;flex-shrink:0;}
+.tog input{opacity:0;width:0;height:0;position:absolute;}
+.togsl{position:absolute;inset:0;background:var(--border2);border-radius:20px;transition:.2s;cursor:pointer;}
+.togsl::before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 2px rgba(0,0,0,.15);}
+.tog input:checked+.togsl{background:var(--accent);}
+.tog input:checked+.togsl::before{transform:translateX(16px);}
+.thrrow{display:flex;align-items:center;gap:.65rem;font-size:.75rem;color:var(--text2);}
+input[type=range]{accent-color:var(--accent);width:110px;cursor:pointer;}
+.thrval{color:var(--accent);font-weight:600;min-width:32px;}
+
+/* Buttons */
+.btn{cursor:pointer;border:none;border-radius:8px;padding:.58rem 1.2rem;font-family:inherit;font-size:.8rem;font-weight:600;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:.4rem;}
+.btn-acc{background:var(--accent);color:#fff;box-shadow:0 1px 2px rgba(37,99,235,.25);}
+.btn-acc:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 8px rgba(37,99,235,.2);}
+.btn-ghost{background:var(--bg2);color:var(--text2);border:1.5px solid var(--border2);}
+.btn-ghost:hover:not(:disabled){background:var(--bg3);color:var(--text);}
+.btn:disabled{opacity:.35;cursor:not-allowed;}
+.runrow{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-top:1rem;}
+.runnote{font-size:.72rem;color:var(--text3);}
+.aresnote{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:.6rem .85rem;font-size:.72rem;color:#92400e;margin-top:.85rem;display:none;}
+.errmsg{background:var(--red-light);border:1px solid #fecaca;border-radius:8px;padding:.65rem .9rem;font-size:.75rem;color:var(--red);margin-top:.6rem;display:none;}
+
+/* Progress */
+.progwrap{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;}
+.progtop{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text2);margin-bottom:.65rem;font-weight:500;}
+.progbar{background:var(--border);border-radius:99px;height:6px;overflow:hidden;}
+.progfill{height:100%;background:linear-gradient(90deg,var(--accent),#60a5fa);transition:width .25s;border-radius:99px;}
+.progphase{font-size:.68rem;color:var(--text3);margin-top:.4rem;}
+
+/* Stats */
+.statsrow{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.85rem 1rem;box-shadow:var(--shadow);}
+.statn{font-size:1.4rem;font-weight:700;line-height:1;letter-spacing:-.5px;}
+.statl{font-size:.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:.3rem;font-weight:500;}
+
+/* Table */
+.tbtoolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;margin-bottom:.85rem;}
+.tbinfo{font-size:.75rem;color:var(--text3);}
+.tbinfo b{color:var(--text);font-weight:600;}
+.tbright{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
+.tblwrap{overflow:auto;border-radius:10px;border:1px solid var(--border);max-height:520px;box-shadow:var(--shadow);}
+table{width:100%;border-collapse:collapse;font-size:.78rem;}
+thead{position:sticky;top:0;z-index:2;}
+th{background:var(--bg3);padding:.6rem .9rem;text-align:left;font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;white-space:nowrap;border-bottom:1px solid var(--border);}
+td{padding:.65rem .9rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--bg3);}
+.nc{color:var(--text);font-weight:500;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mc{color:var(--text2);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pill{display:inline-flex;align-items:center;border-radius:5px;padding:.2rem .5rem;font-size:.7rem;font-weight:600;white-space:nowrap;}
+.mtag{font-size:.63rem;color:var(--text3);padding:.15rem .4rem;border:1px solid var(--border2);border-radius:4px;background:var(--bg3);white-space:nowrap;}
+.atag{font-size:.63rem;padding:.15rem .4rem;border-radius:4px;white-space:nowrap;font-weight:500;}
+.a-ok{background:var(--green-light);color:var(--green);border:1px solid #bbf7d0;}
+.a-no{background:var(--red-light);color:var(--red);border:1px solid #fecaca;}
+.a-skip{color:var(--text3);}
+.top3txt{font-size:.65rem;color:var(--text3);line-height:1.65;white-space:normal;min-width:140px;}
+
+/* Quick Search */
+.qs-input-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.qs-input-wrap{position:relative;flex:1;min-width:240px;}
+.qs-icon{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);font-size:.9rem;pointer-events:none;}
+.qs-input{width:100%;background:var(--bg3);border:1.5px solid var(--border2);color:var(--text);border-radius:8px;padding:.55rem .75rem .55rem 2.2rem;font-family:inherit;font-size:.85rem;transition:border .15s;}
+.qs-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1);background:var(--bg2);}
+.qs-input::placeholder{color:var(--text3);}
+.qs-clear{position:absolute;right:.6rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:.9rem;padding:.15rem .3rem;border-radius:4px;line-height:1;}
+.qs-clear:hover{background:var(--bg3);color:var(--text2);}
+.qs-meta{font-size:.72rem;color:var(--text3);white-space:nowrap;}
+.qs-empty{text-align:center;padding:1.5rem;color:var(--text3);font-size:.8rem;}
+.qs-results{display:flex;flex-direction:column;gap:.4rem;margin-top:.85rem;}
+.qs-row{display:flex;align-items:center;gap:.85rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:.7rem 1rem;transition:all .15s;}
+.qs-row:hover{border-color:var(--accent);background:var(--accent-light);}
+.qs-rank{font-size:.68rem;font-weight:700;color:var(--text3);min-width:18px;text-align:center;}
+.qs-name{flex:1;font-size:.82rem;font-weight:500;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.qs-norm{font-size:.65rem;color:var(--text3);margin-top:.1rem;}
+.qs-score{display:flex;flex-direction:column;align-items:flex-end;gap:.2rem;flex-shrink:0;}
+.qs-bar-wrap{width:72px;height:4px;background:var(--border);border-radius:99px;overflow:hidden;}
+.qs-bar{height:100%;border-radius:99px;}
+.qs-pct{font-size:.72rem;font-weight:700;}
+.qs-src-p{font-size:.6rem;font-weight:600;padding:.1rem .35rem;border-radius:3px;background:var(--accent-light);color:var(--accent);border:1px solid #bfdbfe;white-space:nowrap;flex-shrink:0;}
+.qs-src-s{font-size:.6rem;font-weight:600;padding:.1rem .35rem;border-radius:3px;background:var(--purple-light);color:var(--purple);border:1px solid #ddd6fe;white-space:nowrap;flex-shrink:0;}
+.qs-match{font-size:.68rem;color:var(--green);font-weight:500;margin-top:.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.qs-nomatch{font-size:.68rem;color:var(--text3);margin-top:.15rem;}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-main"><div class="logo-icon">⚡</div>Company Matcher</div>
+    <div class="logo-sub">Fuzzy matching · ARES · Export</div>
+    <div class="logo-badge">PRO v6</div>
+  </div>
+  <div class="steps">
+    <div class="step active" id="s1"><div class="snum">1</div><div><div class="st">Nahrát soubory</div><div class="sd">Prospects · Sold-to · Lookup</div></div></div>
+    <div class="step" id="s2"><div class="snum">2</div><div><div class="st">Nastavit sloupce</div><div class="sd">Které sloupce mají firmy</div></div></div>
+    <div class="step" id="s3"><div class="snum">3</div><div><div class="st">Spustit matching</div><div class="sd">Fuzzy algoritmy + ARES</div></div></div>
+    <div class="step" id="s4"><div class="snum">4</div><div><div class="st">Výsledky &amp; export</div><div class="sd">Excel s matches a skóre</div></div></div>
+  </div>
+  <div class="sfoot">
+    Vše běží lokálně.<br>Soubory nikam neodcházejí.<br><br>
+    ARES dotazy jdou online přes<br>ares.gov.cz (volitelné).
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- Panel: Upload -->
+  <div class="panel">
+    <div class="ptitle">1 · Nahrát soubory</div>
+    <div class="ugrid">
+
+      <!-- Prospects -->
+      <div class="ucard" id="cardA" onclick="document.getElementById(&#39;inpA&#39;).click()" ondragover="dragOver(event,&#39;A&#39;)" ondragleave="dragLeave(&#39;A&#39;)" ondrop="dragDrop(event,&#39;A&#39;)">
+        <input type="file" id="inpA" accept=".xlsx,.xls,.csv" style="display:none" onchange="loadFile(&#39;A&#39;,this.files[0])">
+        <div class="ucard-badge" id="badgeA">✓ Nahráno</div>
+        <div class="uicon">📋</div>
+        <div class="ulabel">Prospects</div>
+        <div class="usub">Hlavní soubor – firmy k párování</div>
+        <div class="ufile" id="fileA"></div>
+        <div class="umeta" id="metaA"></div>
+        <div class="ucard-hint">Klikni nebo přetáhni<br>.xlsx · .xls · .csv</div>
+      </div>
+
+      <!-- Sold-to -->
+      <div class="ucard" id="cardC" onclick="document.getElementById(&#39;inpC&#39;).click()" ondragover="dragOver(event,&#39;C&#39;)" ondragleave="dragLeave(&#39;C&#39;)" ondrop="dragDrop(event,&#39;C&#39;)">
+        <input type="file" id="inpC" accept=".xlsx,.xls,.csv" style="display:none" onchange="loadFile(&#39;C&#39;,this.files[0])">
+        <div class="ucard-badge" id="badgeC">✓ Nahráno</div>
+        <div class="uicon">💼</div>
+        <div class="ulabel">Sold-to <span class="ulabel-opt">(volitelné)</span></div>
+        <div class="usub">Druhý soubor – stávající zákazníci</div>
+        <div class="ufile" id="fileC"></div>
+        <div class="umeta" id="metaC"></div>
+        <div class="ucard-hint">Klikni nebo přetáhni<br>.xlsx · .xls · .csv</div>
+      </div>
+
+      <!-- Lookup -->
+      <div class="ucard" id="cardB" onclick="document.getElementById(&#39;inpB&#39;).click()" ondragover="dragOver(event,&#39;B&#39;)" ondragleave="dragLeave(&#39;B&#39;)" ondrop="dragDrop(event,&#39;B&#39;)">
+        <input type="file" id="inpB" accept=".xlsx,.xls,.csv" style="display:none" onchange="loadFile(&#39;B&#39;,this.files[0])">
+        <div class="ucard-badge" id="badgeB">✓ Nahráno</div>
+        <div class="uicon">🗂️</div>
+        <div class="ulabel">Lookup seznam</div>
+        <div class="usub">Referenční seznam – párování</div>
+        <div class="ufile" id="fileB"></div>
+        <div class="umeta" id="metaB"></div>
+        <div class="ucard-hint">Klikni nebo přetáhni<br>.xlsx · .xls · .csv</div>
+      </div>
+
+    </div>
+    <div class="errmsg" id="errMsg"></div>
+
+    <!-- Column config -->
+    <div id="configArea" style="display:none">
+      <div class="ptitle" style="margin-top:1.25rem;">2 · Nastavit sloupce</div>
+      <div class="sgrid">
+        <div>
+          <label class="flabel" style="color:var(--accent);">● Prospects – název firmy *</label>
+          <select id="selAN" onchange="onColChange()"><option value="">— vyber sloupec —</option></select>
+        </div>
+        <div id="colCWrap">
+          <label class="flabel" style="color:var(--purple);">● Sold-to – název firmy</label>
+          <select id="selCN" onchange="onColChange()"><option value="">— bez Sold-to —</option></select>
+        </div>
+        <div>
+          <label class="flabel" style="color:var(--green);">● Lookup – název firmy *</label>
+          <select id="selBN" onchange="onColChange()"><option value="">— vyber sloupec —</option></select>
+        </div>
+        <div>
+          <label class="flabel">Prospects – IČO (volitelné)</label>
+          <select id="selAI"><option value="">— bez IČO —</option></select>
+        </div>
+        <div id="colCIWrap">
+          <label class="flabel">Sold-to – IČO (volitelné)</label>
+          <select id="selCI"><option value="">— bez IČO —</option></select>
+        </div>
+        <div>
+          <label class="flabel">Lookup – IČO (volitelné)</label>
+          <select id="selBI"><option value="">— bez IČO —</option></select>
+        </div>
+      </div>
+
+      <div class="optrow">
+        <div class="thrrow">
+          <span>Min. shoda:</span>
+          <input type="range" min="0" max="90" value="35" id="thrInp" oninput="document.getElementById(&#39;thrVal&#39;).textContent=this.value+&#39;%&#39;">
+          <span class="thrval" id="thrVal">35%</span>
+        </div>
+        <label class="togrow">
+          <div class="tog"><input type="checkbox" id="togAres" onchange="onAresToggle()"><div class="togsl"></div></div>
+          Ověřit přes ARES
+        </label>
+        <label class="togrow">
+          <div class="tog"><input type="checkbox" id="togTop3" checked=""><div class="togsl"></div></div>
+          Top 3 kandidáti
+        </label>
+      </div>
+      <div class="aresnote" id="aresNote">⚡ ARES ověření volá živé API pro každý řádek – u velkých souborů to trvá déle.</div>
+
+      <div class="runrow">
+        <button class="btn btn-acc" id="btnRun" onclick="runMatch()" disabled="">▶ Spustit matching</button>
+        <button class="btn btn-ghost" id="btnStop" onclick="doStop()" style="display:none">⏹ Zastavit</button>
+        <span class="runnote" id="runNote"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel: Progress -->
+  <div class="panel" id="panelProg" style="display:none">
+    <div class="ptitle">Průběh</div>
+    <div class="progwrap">
+      <div class="progtop"><span id="progLbl">Připravuji…</span><span id="progPct">0%</span></div>
+      <div class="progbar"><div class="progfill" id="progFill" style="width:0"></div></div>
+      <div class="progphase" id="progPhase"></div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div id="panelStats" style="display:none">
+    <div class="statsrow">
+      <div class="stat"><div class="statn" id="stTotal" style="color:var(--text3)">0</div><div class="statl">Celkem</div></div>
+      <div class="stat"><div class="statn" id="stProspects" style="color:var(--accent)">0</div><div class="statl">Prospects</div></div>
+      <div class="stat"><div class="statn" id="stSoldTo" style="color:var(--purple)">0</div><div class="statl">Sold-to</div></div>
+      <div class="stat"><div class="statn" id="stMatched" style="color:var(--green)">0</div><div class="statl">Spárováno</div></div>
+      <div class="stat"><div class="statn" id="stStrong" style="color:var(--orange)">0</div><div class="statl">Silná ≥75%</div></div>
+      <div class="stat"><div class="statn" id="stNone" style="color:var(--red)">0</div><div class="statl">Nespárováno</div></div>
+    </div>
+  </div>
+
+  <!-- Panel: Results -->
+  <div class="panel" id="panelResults" style="display:none">
+    <div class="ptitle">4 · Výsledky</div>
+    <div class="tbtoolbar">
+      <div class="tbinfo">Zobrazeno <b id="dispN">0</b> z <b id="totN">0</b></div>
+      <div class="tbright">
+        <select id="srcSel" onchange="renderTable()" style="width:auto;padding:.3rem .55rem;font-size:.69rem;">
+          <option value="all">Všechny zdroje</option>
+          <option value="prospects">Pouze Prospects</option>
+          <option value="soldto">Pouze Sold-to</option>
+        </select>
+        <select id="filSel" onchange="renderTable()" style="width:auto;padding:.3rem .55rem;font-size:.69rem;">
+          <option value="all" id="fAll">Vše</option>
+          <option value="strong" id="fStrong">Silná ≥75%</option>
+          <option value="med" id="fMed">Střední 50–74%</option>
+          <option value="weak" id="fWeak">Slabá &lt;50%</option>
+          <option value="none" id="fNone">⚠ Nespárováno</option>
+        </select>
+        <select id="srtSel" onchange="renderTable()" style="width:auto;padding:.3rem .55rem;font-size:.69rem;">
+          <option value="row">Pořadí řádků</option>
+          <option value="score">Dle skóre</option>
+        </select>
+        <button class="btn btn-acc" onclick="doExportExcel()" style="padding:.38rem .85rem;font-size:.7rem;">⬇ Export Lookup</button>
+        <button class="btn btn-ghost" onclick="doExportCSV()" style="padding:.38rem .85rem;font-size:.7rem;">⬇ CSV</button>
+      </div>
+    </div>
+    <div class="tblwrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Zdroj</th>
+            <th>Název firmy</th>
+            <th>Nejlepší shoda – Lookup</th>
+            <th>Skóre</th>
+            <th>Metoda</th>
+            <th>ARES</th>
+            <th>Top 2 &amp; 3 kandidáti</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Panel: Quick Search -->
+  <div class="panel" id="panelQS" style="display:none">
+    <div class="ptitle">Rychlé vyhledání</div>
+    <div class="qs-input-row">
+      <div class="qs-input-wrap">
+        <span class="qs-icon">🔍</span>
+        <input type="text" id="qsInput" class="qs-input" placeholder="Hledat v Prospects i Sold-to…" oninput="quickSearch()" autocomplete="off">
+        <button class="qs-clear" id="qsClear" onclick="clearQS()" style="display:none">✕</button>
+      </div>
+      <div class="qs-meta" id="qsMeta"></div>
+    </div>
+    <div id="qsResults"></div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+var dataA = null; // Prospects
+var dataB = null; // Lookup
+var dataC = null; // Sold-to (optional)
+var results = [];
+var abortFlag = false;
+
+// ============================================================
+// DRAG & DROP
+// ============================================================
+function dragOver(e, k) { e.preventDefault(); document.getElementById('card'+k).classList.add('drag'); }
+function dragLeave(k)  { document.getElementById('card'+k).classList.remove('drag'); }
+function dragDrop(e, k){ e.preventDefault(); dragLeave(k); var f=e.dataTransfer.files[0]; if(f) loadFile(k,f); }
+
+// ============================================================
+// FILE LOADING
+// ============================================================
+function loadFile(key, file) {
+  if (!file) return;
+  hideErr();
+  var reader = new FileReader();
+  reader.onerror = function() { showErr('Nepodařilo se číst soubor.'); };
+  reader.onload = function(e) {
+    try {
+      var wb = XLSX.read(e.target.result, {type:'array'});
+      var ws = wb.Sheets[wb.SheetNames[0]];
+      var raw = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+      if (!raw || raw.length < 2) { showErr('Soubor je prázdný nebo nemá žádné řádky dat.'); return; }
+      var headers = raw[0].map(function(h,i){ return h ? String(h).trim() : 'Sloupec '+(i+1); });
+      var rows = raw.slice(1).filter(function(r){ return r.some(function(c){ return String(c).trim(); }); });
+
+      if (key==='A') dataA = {headers:headers, rows:rows};
+      else if (key==='B') dataB = {headers:headers, rows:rows};
+      else if (key==='C') dataC = {headers:headers, rows:rows};
+
+      var loadClass = 'loaded-'+key.toLowerCase();
+      var card = document.getElementById('card'+key);
+      card.className = card.className.replace(/loaded-\w+/g,'').trim() + ' ' + loadClass;
+      card.classList.remove('drag');
+      document.getElementById('file'+key).textContent = file.name;
+      document.getElementById('meta'+key).textContent = rows.length+' řádků · '+headers.length+' sloupců';
+
+      // Show config when at minimum A+B loaded
+      if (dataA && dataB) {
+        document.getElementById('configArea').style.display = 'block';
+        populateCols('A', dataA.headers);
+        populateCols('B', dataB.headers);
+        // Sold-to columns
+        if (dataC) {
+          populateCols('C', dataC.headers);
+          document.getElementById('colCWrap').style.opacity = '1';
+          document.getElementById('colCIWrap').style.opacity = '1';
+        }
+        setStep(2);
+      }
+      // Show QS when A loaded
+      if (dataA) {
+        document.getElementById('panelQS').style.display = 'block';
+      }
+      // Update Sold-to cols if C just loaded
+      if (key==='C' && dataC) {
+        populateCols('C', dataC.headers);
+        document.getElementById('colCWrap').style.opacity = '1';
+        document.getElementById('colCIWrap').style.opacity = '1';
+        onColChange();
+      }
+    } catch(ex) {
+      showErr('Chyba při načítání souboru: '+ex.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function populateCols(key, headers) {
+  var nameId = 'sel'+key+'N', icoId = 'sel'+key+'I';
+  var placeholder = key==='C' ? '— bez Sold-to —' : '— vyber sloupec —';
+  var opts = headers.map(function(h,i){ return '<option value="'+i+'">'+esc(h)+'</option>'; }).join('');
+  document.getElementById(nameId).innerHTML = '<option value="">'+placeholder+'</option>'+opts;
+  document.getElementById(icoId).innerHTML = '<option value="">— bez IČO —</option>'+opts;
+
+  var detected = false;
+  headers.forEach(function(h,i) {
+    var hl = h.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    if (/nazev|name|firma|company|obchodni|spolecnost|subject|account|customer|client|partner/.test(hl)) {
+      document.getElementById(nameId).value = i;
+      detected = true;
+    }
+    if (/ico|\bic\b|reg.*num|vat/.test(hl)) {
+      document.getElementById(icoId).value = i;
+    }
+  });
+  if (!detected && headers.length > 0 && key !== 'C') {
+    document.getElementById(nameId).value = 0;
+  }
+  onColChange();
+}
+
+function onColChange() {
+  var aN = document.getElementById('selAN').value;
+  var bN = document.getElementById('selBN').value;
+  var ok = aN !== '' && bN !== '';
+  document.getElementById('btnRun').disabled = !ok;
+  var note = document.getElementById('runNote');
+  if (ok && dataA) {
+    var total = dataA.rows.length + (dataC ? dataC.rows.length : 0);
+    note.style.color = '';
+    note.textContent = total + ' řádků bude zpracováno' + (dataC ? ' (Prospects + Sold-to)' : '');
+  } else if (!dataA || !dataB) {
+    note.textContent = '';
+  } else if (aN === '') {
+    note.style.color = 'var(--orange)';
+    note.textContent = 'Vyber sloupec s názvy firem v Prospects';
+  } else if (bN === '') {
+    note.style.color = 'var(--orange)';
+    note.textContent = 'Vyber sloupec s názvy firem v Lookup';
+  }
+}
+
+function onAresToggle() {
+  document.getElementById('aresNote').style.display = document.getElementById('togAres').checked ? 'block' : 'none';
+}
+
+// ============================================================
+// FUZZY ENGINE v4
+// ============================================================
+function normalizeName(s) {
+  var v = String(s||'');
+  v = v.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  var lf = ['spol\\.?\\s*s\\.?\\s*r\\.?\\s*o\\.?','s\\.?\\s*r\\.?\\s*o\\.?','a\\.?\\s*s\\.?',
+    'v\\.?\\s*o\\.?\\s*s\\.?','k\\.?\\s*s\\.?','z\\.?\\s*s\\.?','o\\.?\\s*p\\.?\\s*s\\.?',
+    's\\.?\\s*e\\.?','spol','ltd\\.?','llc\\.?','gmbh\\.?','inc\\.?','corp\\.?','group','holding'];
+  lf.forEach(function(f){ v = v.replace(new RegExp('\\b'+f+'\\b\\.?','gi'),''); });
+  v = v.replace(/\b([a-z])\.([a-z])\.([a-z])\.?/g,'$1$2$3');
+  v = v.replace(/\b([a-z])\.([a-z])\.?/g,'$1$2');
+  v = v.replace(/[-_\/\\.,;:!?&+|]/g,' ');
+  v = v.replace(/([a-z])([A-Z])/g,'$1 $2').toLowerCase();
+  v = v.replace(/\b[a-z]\b/g,'');
+  v = v.replace(/\bviii\b/g,'8').replace(/\bvii\b/g,'7').replace(/\bvi\b/g,'6')
+       .replace(/\biv\b/g,'4').replace(/\biii\b/g,'3').replace(/\bii\b/g,'2');
+  v = v.replace(/(\d+)\./g,'$1');
+  ['the','and','oder','und','for','pro'].forEach(function(w){ v = v.replace(new RegExp('\\b'+w+'\\b','gi'),''); });
+  return v.replace(/\s+/g,' ').trim();
+}
+function sortedName(s){ return normalizeName(s).split(' ').filter(Boolean).sort().join(' '); }
+function compactName(s){ return normalizeName(s).replace(/\s/g,''); }
+
+function lev(a,b){
+  var m=a.length,n=b.length;
+  if(!m)return n;if(!n)return m;
+  var prev=[],curr=[],tmp;
+  for(var j=0;j<=n;j++)prev[j]=j;
+  for(var i=1;i<=m;i++){curr[0]=i;for(var j=1;j<=n;j++)curr[j]=a[i-1]===b[j-1]?prev[j-1]:1+Math.min(prev[j-1],prev[j],curr[j-1]);tmp=prev;prev=curr;curr=tmp;}
+  return prev[n];
+}
+function bigramSim(a,b){
+  if(a.length<2||b.length<2)return a===b?1:0;
+  var sa={},sb={};
+  for(var i=0;i<a.length-1;i++)sa[a[i]+a[i+1]]=true;
+  for(var i=0;i<b.length-1;i++)sb[b[i]+b[i+1]]=true;
+  var inter=0,ua=Object.keys(sa).length,ub=Object.keys(sb).length;
+  for(var k in sa)if(sb[k])inter++;
+  var union=ua+ub-inter;
+  return union?inter/union:0;
+}
+function tokenSim(na,nb){
+  var ta=na.split(' ').filter(Boolean),tb=nb.split(' ').filter(Boolean);
+  if(!ta.length||!tb.length)return 0;
+  var score=0;
+  ta.forEach(function(wa){var best=0;tb.forEach(function(wb){if(wa===wb){best=1;return;}var ml=Math.max(wa.length,wb.length);if(ml<2)return;var s=1-lev(wa,wb)/ml;if(s>best)best=s;});score+=best;});
+  return score/Math.max(ta.length,tb.length);
+}
+function calcSim(a,b){
+  var na=normalizeName(a),nb=normalizeName(b);
+  if(!na&&!nb)return 1;if(!na||!nb)return 0;
+  if(na===nb)return 1.00;
+  if(sortedName(a)===sortedName(b))return 0.99;
+  if(compactName(a)===compactName(b))return 0.98;
+  var maxL=Math.max(na.length,nb.length);
+  var levSc=maxL?1-lev(na,nb)/maxL:0;
+  var biSc=bigramSim(na,nb);
+  var tokSc=tokenSim(na,nb);
+  var ca=compactName(a),cb=compactName(b),cMax=Math.max(ca.length,cb.length);
+  var cLev=cMax?1-lev(ca,cb)/cMax:0;
+  var sa=sortedName(a),sb=sortedName(b),sMax=Math.max(sa.length,sb.length);
+  var sLev=sMax?1-lev(sa,sb)/sMax:0;
+  return Math.min(1,levSc*0.20+biSc*0.20+tokSc*0.30+cLev*0.15+sLev*0.15);
+}
+
+// ============================================================
+// ARES
+// ============================================================
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
+async function aresById(ico){
+  var ico8=ico.replace(/\s/g,'').padStart(8,'0');
+  try{var r=await fetch('https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/'+ico8);if(!r.ok)return null;var d=await r.json();return{nazev:d.obchodniJmeno||'',ico:d.ico||'',aktivni:!d.datumZaniku,adresa:fmtAdresa(d.sidlo||{})};}catch(e){return null;}
+}
+async function aresByName(name){
+  try{var r=await fetch('https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/vyhledat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({obchodniJmeno:name,pocet:3,start:0})});if(!r.ok)return[];var d=await r.json();return(d.ekonomickeSubjekty||[]).map(function(s){return{nazev:s.obchodniJmeno||'',ico:s.ico||'',aktivni:!s.datumZaniku,adresa:fmtAdresa(s.sidlo||{})};});}catch(e){return[];}
+}
+function fmtAdresa(s){return[s.nazevUlice||s.nazevCastiObce,s.cisloDomovni,s.nazevObce,s.psc].filter(Boolean).join(' ');}
+
+// ============================================================
+// MATCHING – processes both Prospects + Sold-to
+// ============================================================
+async function runMatch() {
+  abortFlag = false;
+  document.getElementById('btnRun').style.display='none';
+  document.getElementById('btnStop').style.display='inline-flex';
+  document.getElementById('panelProg').style.display='block';
+  document.getElementById('panelStats').style.display='none';
+  document.getElementById('panelResults').style.display='none';
+  setStep(3);
+
+  var colAN = parseInt(document.getElementById('selAN').value);
+  var colBN = parseInt(document.getElementById('selBN').value);
+  var colCNval = document.getElementById('selCN').value;
+  var colCN = colCNval !== '' ? parseInt(colCNval) : -1;
+  var colAI = document.getElementById('selAI').value !== '' ? parseInt(document.getElementById('selAI').value) : -1;
+  var colBI = document.getElementById('selBI').value !== '' ? parseInt(document.getElementById('selBI').value) : -1;
+  var colCI = document.getElementById('selCI').value !== '' ? parseInt(document.getElementById('selCI').value) : -1;
+  var useAres = document.getElementById('togAres').checked;
+  var minScore = parseInt(document.getElementById('thrInp').value)/100;
+  var showTop3 = document.getElementById('togTop3').checked;
+
+  // Build lookup index
+  var lookup = [];
+  dataB.rows.forEach(function(r,i){
+    var name=String(r[colBN]||'').trim();
+    if(!name)return;
+    var ico=colBI>=0?String(r[colBI]||'').replace(/\D/g,''):'';
+    lookup.push({name:name,ico:ico,origIdx:i});
+  });
+
+  // Combine Prospects + Sold-to into one queue with source tag
+  var queue = [];
+  dataA.rows.forEach(function(r,i){ queue.push({row:r,source:'prospects',origIdx:i}); });
+  if (dataC && colCN>=0) {
+    dataC.rows.forEach(function(r,i){ queue.push({row:r,source:'soldto',origIdx:i}); });
+  }
+
+  results = [];
+
+  for (var i=0; i<queue.length; i++) {
+    if (abortFlag) break;
+    var item = queue[i];
+    var row = item.row;
+    var source = item.source;
+    var colN = source==='prospects' ? colAN : colCN;
+    var colI = source==='prospects' ? colAI : colCI;
+
+    var inputName = String(row[colN]||'').trim();
+    var inputIco  = colI>=0 ? String(row[colI]||'').replace(/\D/g,'') : '';
+
+    setProgress(Math.round(i/queue.length*100), 'Zpracovávám: '+inputName.slice(0,35)+'…', (i+1)+' / '+queue.length);
+
+    if (!inputName) {
+      results.push({rowIdx:item.origIdx+2,source:source,inputName:'',inputIco:inputIco,origRow:row,match:null,score:0,method:'',aresData:null,top3:[]});
+      continue;
+    }
+
+    var candidates = lookup.map(function(l){
+      var sc=calcSim(inputName,l.name);
+      var method='fuzzy';
+      if(inputIco&&l.ico&&inputIco.length>=6&&(inputIco===l.ico||inputIco===l.ico.padStart(8,'0'))){sc=Math.max(sc,0.97);method='IČO';}
+      return{name:l.name,ico:l.ico,score:sc,method:method};
+    });
+    candidates.sort(function(a,b){return b.score-a.score;});
+
+    var best=candidates.length>0?candidates[0]:null;
+    var top3=showTop3?candidates.slice(0,3):[];
+
+    var aresData=null;
+    if(useAres){
+      setProgress(Math.round(i/queue.length*100),'ARES: '+inputName.slice(0,30)+'…',(i+1)+' / '+queue.length);
+      var tryIco=inputIco||(best?best.ico:'');
+      if(tryIco&&tryIco.length>=6)aresData=await aresById(tryIco);
+      if(!aresData){var found=await aresByName(inputName);if(found.length>0)aresData=found[0];}
+      await sleep(180);
+    }
+
+    results.push({
+      rowIdx:item.origIdx+2, source:source,
+      inputName:inputName, inputIco:inputIco, origRow:row,
+      match:(best&&best.score>=minScore)?best:null,
+      score:best?best.score:0, method:best?best.method:'',
+      aresData:aresData,
+      top3:top3.filter(function(c){return c.score>=0.2;})
+    });
+  }
+
+  setProgress(100,'Hotovo!','');
+  setTimeout(function(){document.getElementById('panelProg').style.display='none';},800);
+  document.getElementById('btnRun').style.display='inline-flex';
+  document.getElementById('btnStop').style.display='none';
+
+  updateStats();
+  renderTable();
+  document.getElementById('panelStats').style.display='grid';
+  document.getElementById('panelResults').style.display='block';
+  setStep(4);
+}
+
+function doStop(){ abortFlag=true; }
+
+function setProgress(pct,lbl,phase){
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progPct').textContent=pct+'%';
+  document.getElementById('progLbl').textContent=lbl;
+  document.getElementById('progPhase').textContent=phase;
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function updateStats(){
+  var total=results.length;
+  var prospects=results.filter(function(r){return r.source==='prospects';}).length;
+  var soldto=results.filter(function(r){return r.source==='soldto';}).length;
+  var matched=results.filter(function(r){return r.match;}).length;
+  var strong=results.filter(function(r){return r.score>=0.75;}).length;
+  var med=results.filter(function(r){return r.match&&r.score>=0.5&&r.score<0.75;}).length;
+  var none=results.filter(function(r){return !r.match;}).length;
+  var weak=matched-strong-med;
+  document.getElementById('stTotal').textContent=total;
+  document.getElementById('stProspects').textContent=prospects;
+  document.getElementById('stSoldTo').textContent=soldto;
+  document.getElementById('stMatched').textContent=matched;
+  document.getElementById('stStrong').textContent=strong;
+  document.getElementById('stNone').textContent=none;
+  document.getElementById('fAll').textContent='Vše ('+total+')';
+  document.getElementById('fStrong').textContent='Silná ≥75% ('+strong+')';
+  document.getElementById('fMed').textContent='Střední 50–74% ('+med+')';
+  document.getElementById('fWeak').textContent='Slabá <50% ('+weak+')';
+  document.getElementById('fNone').textContent='⚠ Nespárováno ('+none+')';
+}
+
+// ============================================================
+// TABLE
+// ============================================================
+function renderTable(){
+  var src=document.getElementById('srcSel').value;
+  var filter=document.getElementById('filSel').value;
+  var sort=document.getElementById('srtSel').value;
+  var data=results.slice();
+
+  if(src==='prospects') data=data.filter(function(r){return r.source==='prospects';});
+  else if(src==='soldto') data=data.filter(function(r){return r.source==='soldto';});
+
+  if(filter==='strong') data=data.filter(function(r){return r.score>=0.75;});
+  else if(filter==='med') data=data.filter(function(r){return r.match&&r.score>=0.5&&r.score<0.75;});
+  else if(filter==='weak') data=data.filter(function(r){return r.match&&r.score<0.5;});
+  else if(filter==='none') data=data.filter(function(r){return !r.match;});
+
+  if(sort==='score') data.sort(function(a,b){return b.score-a.score;});
+
+  document.getElementById('dispN').textContent=data.length;
+  document.getElementById('totN').textContent=results.length;
+
+  var html='';
+  data.forEach(function(r){
+    var sc=r.score;
+    var col=sc>=0.75?'#16a34a':sc>=0.5?'#d97706':sc>=0.25?'#ea580c':'#dc2626';
+    var scoreHtml=r.match
+      ?'<span class="pill" style="background:'+col+'18;color:'+col+';border:1px solid '+col+'30">'+Math.round(sc*100)+'%</span>'
+      :'<span style="color:var(--text3)">—</span>';
+    var aresHtml=!r.aresData?'<span class="atag a-skip">—</span>':r.aresData.aktivni?'<span class="atag a-ok">✓ aktivní</span>':'<span class="atag a-no">✗ zaniklá</span>';
+    var top3html='<span style="color:var(--text3);font-size:.6rem;">—</span>';
+    if(r.top3.length>1) top3html='<div class="top3txt">'+r.top3.slice(1).map(function(c){return Math.round(c.score*100)+'% '+esc(c.name);}).join('<br>')+'</div>';
+    var rowBg=!r.match?' style="background:#fef9f9;"':'';
+    var srcBadge=r.source==='prospects'
+      ?'<span class="src-p">📋 Prospects</span>'
+      :'<span class="src-s">💼 Sold-to</span>';
+    var matchCell=r.match?esc(r.match.name):'<span style="color:var(--red);font-size:.72rem;font-weight:500;">✕ Nenalezeno</span>';
+    html+='<tr'+rowBg+'>'
+      +'<td style="color:var(--text3);white-space:nowrap">'+r.rowIdx+'</td>'
+      +'<td>'+srcBadge+'</td>'
+      +'<td class="nc" title="'+esc(r.inputName)+'">'+(r.inputName?esc(r.inputName):'<span style="color:var(--text3)">prázdné</span>')+'</td>'
+      +'<td class="mc" title="'+(r.match?esc(r.match.name):'')+'">'+matchCell+'</td>'
+      +'<td>'+scoreHtml+'</td>'
+      +'<td><span class="mtag">'+(r.method||'—')+'</span></td>'
+      +'<td>'+aresHtml+'</td>'
+      +'<td>'+top3html+'</td>'
+      +'</tr>';
+  });
+  document.getElementById('tbody').innerHTML=html;
+}
+
+// ============================================================
+// EXPORT EXCEL
+// ============================================================
+function colToLetter(n){var s='';while(n>=0){s=String.fromCharCode(65+(n%26))+s;n=Math.floor(n/26)-1;}return s;}
+
+function doExportExcel(){
+  var wb=XLSX.utils.book_new();
+  var headersB=dataB.headers;
+  var colBN=parseInt(document.getElementById('selBN').value);
+
+  // Build map: lookup row index → best matching result
+  var lookupMatchMap={};
+  results.forEach(function(r){
+    if(!r.match)return;
+    var bestName=r.match.name;
+    dataB.rows.forEach(function(row,idx){
+      if(String(row[colBN]||'').trim()===bestName&&lookupMatchMap[idx]===undefined){
+        lookupMatchMap[idx]=r;
+      }
+    });
+  });
+
+  // Sheet 1: Lookup + matched info
+  var lookupRows=dataB.rows.map(function(row,idx){
+    var obj={};
+    headersB.forEach(function(h,i){obj[h]=row[i]!=null?row[i]:'';});
+    var m=lookupMatchMap[idx];
+    if(m){
+      obj['Nalezeno']='ANO';
+      obj['Zdroj']=m.source==='prospects'?'Prospects':'Sold-to';
+      obj['Název v souboru']=m.inputName;
+      obj['Shoda %']=Math.round(m.score*100);
+      obj['Metoda']=m.method||'';
+    } else {
+      obj['Nalezeno']='NE';
+      obj['Zdroj']='';
+      obj['Název v souboru']='';
+      obj['Shoda %']='';
+      obj['Metoda']='';
+    }
+    return obj;
+  });
+  var ws=XLSX.utils.json_to_sheet(lookupRows);
+  ws['!cols']=[].concat(headersB.map(function(){return{wch:25};}),
+    [{wch:10},{wch:12},{wch:35},{wch:10},{wch:12}]);
+  XLSX.utils.book_append_sheet(wb,ws,'Lookup + shody');
+
+  // Sheet 2: Not found in any source
+  var notFound=dataB.rows.filter(function(_,idx){return !lookupMatchMap[idx];});
+  if(notFound.length){
+    var wsNF=XLSX.utils.json_to_sheet(notFound.map(function(row){
+      var obj={};headersB.forEach(function(h,i){obj[h]=row[i]!=null?row[i]:'';});return obj;
+    }));
+    wsNF['!cols']=headersB.map(function(){return{wch:25};});
+    XLSX.utils.book_append_sheet(wb,wsNF,'Nenalezeno');
+  }
+
+  // Sheet 3: Prospects without match
+  var unmP=results.filter(function(r){return r.source==='prospects'&&!r.match;});
+  if(unmP.length){
+    var wsP=XLSX.utils.json_to_sheet(unmP.map(function(r){
+      var obj={};dataA.headers.forEach(function(h,i){obj[h]=r.origRow[i]!=null?r.origRow[i]:'';});return obj;
+    }));
+    wsP['!cols']=dataA.headers.map(function(){return{wch:25};});
+    XLSX.utils.book_append_sheet(wb,wsP,'Prospects bez shody');
+  }
+
+  // Sheet 4: Sold-to without match
+  if(dataC){
+    var unmC=results.filter(function(r){return r.source==='soldto'&&!r.match;});
+    if(unmC.length){
+      var wsC=XLSX.utils.json_to_sheet(unmC.map(function(r){
+        var obj={};dataC.headers.forEach(function(h,i){obj[h]=r.origRow[i]!=null?r.origRow[i]:'';});return obj;
+      }));
+      wsC['!cols']=dataC.headers.map(function(){return{wch:25};});
+      XLSX.utils.book_append_sheet(wb,wsC,'Sold-to bez shody');
+    }
+  }
+
+  XLSX.writeFile(wb,'lookup-s-shodami.xlsx');
+}
+
+// ============================================================
+// CSV EXPORT
+// ============================================================
+function doExportCSV(){
+  var lines=['"Řádek","Zdroj","Název firmy","Shoda Lookup","Skóre %","Metoda","ARES status"'];
+  results.forEach(function(r){
+    var q=function(s){return'"'+String(s||'').replace(/"/g,'""')+'"';};
+    var aresStatus=r.aresData?(r.aresData.aktivni?'aktivní':'zaniklá'):'';
+    lines.push([r.rowIdx,q(r.source==='prospects'?'Prospects':'Sold-to'),q(r.inputName),
+      q(r.match?r.match.name:''),r.match?Math.round(r.score*100):'',r.method||'',q(aresStatus)].join(','));
+  });
+  var b=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='company-matcher.csv';a.click();
+}
+
+// ============================================================
+// QUICK SEARCH – prohledá Prospects i Sold-to, zobrazí shodu v Lookup
+// ============================================================
+var qsTimer=null;
+function quickSearch(){
+  var q=document.getElementById('qsInput').value.trim();
+  document.getElementById('qsClear').style.display=q?'inline-flex':'none';
+  clearTimeout(qsTimer);
+  if(!q){document.getElementById('qsResults').innerHTML='';document.getElementById('qsMeta').textContent='';return;}
+  qsTimer=setTimeout(function(){doQS(q);},150);
+}
+
+function doQS(q){
+  if(!dataA){
+    document.getElementById('qsResults').innerHTML='<div class="qs-empty">Nejprve nahraj soubor Prospects</div>';
+    return;
+  }
+  var colAN=document.getElementById('selAN').value;
+  if(colAN===''){
+    document.getElementById('qsResults').innerHTML='<div class="qs-empty">Vyber sloupec s názvy firem v Prospects</div>';
+    return;
+  }
+
+  var colANi=parseInt(colAN);
+  var colAIi=document.getElementById('selAI').value!==''?parseInt(document.getElementById('selAI').value):-1;
+  var colCNval=document.getElementById('selCN').value;
+  var colCNi=colCNval!==''?parseInt(colCNval):-1;
+  var colCIi=document.getElementById('selCI').value!==''?parseInt(document.getElementById('selCI').value):-1;
+  var colBNi=document.getElementById('selBN').value!==''?parseInt(document.getElementById('selBN').value):-1;
+
+  // Build lookup index for fast match display
+  var lookupArr=[];
+  if(dataB&&colBNi>=0){
+    dataB.rows.forEach(function(row){
+      var n=String(row[colBNi]||'').trim();
+      if(n)lookupArr.push(n);
+    });
+  }
+
+  function bestLookupMatch(name){
+    if(!lookupArr.length)return null;
+    var best=null,bestSc=0;
+    lookupArr.forEach(function(ln){
+      var sc=calcSim(name,ln);
+      if(sc>bestSc){bestSc=sc;best=ln;}
+    });
+    return bestSc>=0.35?{name:best,score:bestSc}:null;
+  }
+
+  // Collect candidates from Prospects
+  var candidates=[];
+  dataA.rows.forEach(function(row){
+    var name=String(row[colANi]||'').trim();
+    if(!name)return;
+    var ico=colAIi>=0?String(row[colAIi]||'').replace(/\D/g,''):'';
+    candidates.push({name:name,ico:ico,source:'prospects',score:calcSim(q,name)});
+  });
+
+  // Collect candidates from Sold-to
+  if(dataC&&colCNi>=0){
+    dataC.rows.forEach(function(row){
+      var name=String(row[colCNi]||'').trim();
+      if(!name)return;
+      var ico=colCIi>=0?String(row[colCIi]||'').replace(/\D/g,''):'';
+      candidates.push({name:name,ico:ico,source:'soldto',score:calcSim(q,name)});
+    });
+  }
+
+  candidates.sort(function(a,b){return b.score-a.score;});
+  var top=candidates.slice(0,10).filter(function(r){return r.score>=0.1;});
+
+  var totalSearched=dataA.rows.length+(dataC&&colCNi>=0?dataC.rows.length:0);
+  document.getElementById('qsMeta').textContent=totalSearched+' firem prohledáno';
+
+  if(!top.length){
+    document.getElementById('qsResults').innerHTML='<div class="qs-empty">Žádná shoda nenalezena</div>';
+    return;
+  }
+
+  var html='<div class="qs-results">';
+  top.forEach(function(r,i){
+    var scoreCol=r.score>=0.75?'#16a34a':r.score>=0.5?'#d97706':r.score>=0.25?'#ea580c':'#dc2626';
+    var pct=Math.round(r.score*100);
+    var srcBadge=r.source==='prospects'
+      ?'<span class="qs-src-p">📋 Prospects</span>'
+      :'<span class="qs-src-s">💼 Sold-to</span>';
+    var lm=bestLookupMatch(r.name);
+    var lookupHtml=lm
+      ?'<div class="qs-match">⟶ Lookup: '+esc(lm.name)+' <span style="color:var(--text3)">('+Math.round(lm.score*100)+'%)</span></div>'
+      :(dataB?'<div class="qs-nomatch">⟶ Lookup: nenalezeno</div>':'');
+    html+='<div class="qs-row">'
+      +'<div class="qs-rank">#'+(i+1)+'</div>'
+      +'<div style="flex:1;min-width:0;overflow:hidden">'
+        +'<div style="display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">'
+          +srcBadge
+          +'<span class="qs-name">'+esc(r.name)+(r.ico?'<span style="color:var(--text3);font-size:.65rem;margin-left:.35rem">IČO: '+esc(r.ico)+'</span>':'')+'</span>'
+        +'</div>'
+        +lookupHtml
+      +'</div>'
+      +'<div class="qs-score">'
+        +'<div class="qs-pct" style="color:'+scoreCol+'">'+pct+'%</div>'
+        +'<div class="qs-bar-wrap"><div class="qs-bar" style="width:'+pct+'%;background:'+scoreCol+'"></div></div>'
+      +'</div>'
+      +'</div>';
+  });
+  html+='</div>';
+  document.getElementById('qsResults').innerHTML=html;
+}
+
+function clearQS(){
+  document.getElementById('qsInput').value='';
+  document.getElementById('qsClear').style.display='none';
+  document.getElementById('qsResults').innerHTML='';
+  document.getElementById('qsMeta').textContent='';
+  document.getElementById('qsInput').focus();
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function setStep(n){for(var i=1;i<=4;i++){var el=document.getElementById('s'+i);el.classList.remove('active','done');if(i<n)el.classList.add('done');else if(i===n)el.classList.add('active');}}
+function showErr(msg){var el=document.getElementById('errMsg');el.textContent=msg;el.style.display='block';}
+function hideErr(){document.getElementById('errMsg').style.display='none';}
+</script>
+
+
+</body></html>

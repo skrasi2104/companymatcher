@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/simon/Downloads/index_5.html -->
-<html lang="cs"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Company Matcher PRO</title>
 <script>
-// Load XLSX with fallback CDNs
 (function() {
   var cdns = [
     'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js',
@@ -17,37 +16,38 @@
     if (idx >= cdns.length) {
       document.addEventListener('DOMContentLoaded', function() {
         var e = document.getElementById('errMsg');
-        if (e) { e.textContent = 'Nepodařilo se načíst knihovnu pro Excel. Zkus obnovit stránku (F5).'; e.style.display = 'block'; }
+        if (e) { e.textContent = 'Failed to load Excel library. Try refreshing (F5).'; e.style.display = 'block'; }
       });
       return;
     }
-    var s = document.createElement('script');
-    s.src = cdns[idx++];
-    s.onerror = tryLoad;
+    var s = document.createElement('script'); s.src = cdns[idx++]; s.onerror = tryLoad;
     document.head.appendChild(s);
   }
   tryLoad();
 })();
-</script><script src="./Company Matcher PRO5_files/xlsx.full.min.js.stažený soubor"></script>
-<link href="./Company Matcher PRO5_files/css2" rel="stylesheet">
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#f5f6f8;--bg2:#ffffff;--bg3:#f0f2f5;
-  --border:#e2e5ea;--border2:#d0d5dd;
-  --text:#0f1721;--text2:#4b5563;--text3:#9ca3af;
-  --accent:#2563eb;--accent-light:#eff4ff;--accent-hover:#1d4ed8;
-  --green:#16a34a;--green-light:#f0fdf4;
-  --red:#dc2626;--red-light:#fef2f2;
-  --purple:#7c3aed;--purple-light:#f5f3ff;
+:root {
+  --bg:#f5f6f8; --bg2:#ffffff; --bg3:#f0f2f5;
+  --border:#e2e5ea; --border2:#d0d5dd;
+  --text:#0f1721; --text2:#4b5563; --text3:#9ca3af;
+  --accent:#2563eb; --accent-light:#eff4ff; --accent-hover:#1d4ed8;
+  --green:#16a34a; --green-light:#f0fdf4;
+  --red:#dc2626; --red-light:#fef2f2;
   --orange:#d97706;
   --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.05);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
-::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg3);}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg3);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
 .shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
 
-/* Sidebar */
+/* ─── Sidebar ─── */
 .sidebar{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;box-shadow:var(--shadow);}
 .logo{padding:1.4rem 1.25rem 1.2rem;border-bottom:1px solid var(--border);}
 .logo-main{font-size:1rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:.5rem;}
@@ -55,57 +55,72 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 .logo-sub{font-size:.7rem;color:var(--text3);margin-top:.2rem;margin-left:36px;}
 .logo-badge{display:inline-block;background:var(--accent-light);color:var(--accent);font-size:.6rem;font-weight:600;padding:.15rem .45rem;border-radius:4px;margin-top:.4rem;margin-left:36px;}
 .steps{flex:1;padding:.75rem 0;}
-.step{padding:.6rem 1.25rem;display:flex;gap:.7rem;align-items:flex-start;border-left:3px solid transparent;transition:all .15s;}
+.step{padding:.65rem 1.25rem;display:flex;gap:.7rem;align-items:flex-start;border-left:3px solid transparent;transition:all .2s;}
 .step.active{border-left-color:var(--accent);background:var(--accent-light);}
-.step.done{opacity:.45;}
-.snum{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:600;color:var(--text3);flex-shrink:0;margin-top:1px;background:var(--bg2);}
+.step.done{border-left-color:var(--green);opacity:.65;}
+.snum{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:600;color:var(--text3);flex-shrink:0;margin-top:1px;background:var(--bg2);transition:all .2s;}
 .step.active .snum{background:var(--accent);border-color:var(--accent);color:#fff;}
 .step.done .snum{background:var(--green);border-color:var(--green);color:#fff;}
 .st{font-size:.78rem;font-weight:600;color:var(--text);}
 .sd{font-size:.68rem;color:var(--text3);margin-top:.1rem;line-height:1.4;}
 .sfoot{padding:.85rem 1.25rem;border-top:1px solid var(--border);font-size:.68rem;color:var(--text3);line-height:1.65;}
 
-/* Main */
-.main{padding:2rem 1.75rem;display:flex;flex-direction:column;gap:1.25rem;max-width:1060px;}
+/* ─── Main ─── */
+.main{padding:2rem 1.75rem;display:flex;flex-direction:column;gap:1.25rem;max-width:1100px;}
 .panel{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;box-shadow:var(--shadow);}
 .ptitle{font-size:.7rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.1rem;display:flex;align-items:center;gap:.6rem;}
 .ptitle::after{content:'';flex:1;height:1px;background:var(--border);}
 
-/* Upload cards */
-.ugrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.85rem;}
-.ucard{border:2px dashed var(--border2);border-radius:10px;padding:1.5rem 1rem 1.25rem;text-align:center;cursor:pointer;transition:all .2s;user-select:none;background:var(--bg3);position:relative;}
-.ucard:hover,.ucard.drag{border-color:var(--accent);background:var(--accent-light);}
-.ucard.loaded-a{border-style:solid;border-color:var(--accent);background:var(--accent-light);}
-.ucard.loaded-c{border-style:solid;border-color:var(--purple);background:var(--purple-light);}
-.ucard.loaded-b{border-style:solid;border-color:var(--green);background:var(--green-light);}
-.ucard-badge{position:absolute;top:.55rem;right:.55rem;font-size:.6rem;font-weight:600;padding:.15rem .45rem;border-radius:20px;display:none;}
-.ucard.loaded-a .ucard-badge{display:inline-block;background:var(--accent-light);color:var(--accent);border:1px solid #bfdbfe;}
-.ucard.loaded-c .ucard-badge{display:inline-block;background:var(--purple-light);color:var(--purple);border:1px solid #ddd6fe;}
-.ucard.loaded-b .ucard-badge{display:inline-block;background:var(--green-light);color:var(--green);border:1px solid #bbf7d0;}
-.uicon{width:40px;height:40px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin:0 auto .65rem;box-shadow:var(--shadow);}
-.ulabel{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.2rem;}
-.ulabel-opt{font-size:.65rem;font-weight:400;color:var(--text3);}
-.usub{font-size:.69rem;color:var(--text3);}
-.ufile{font-size:.72rem;font-weight:500;word-break:break-all;margin-top:.45rem;}
-.ucard.loaded-a .ufile{color:var(--accent);}
-.ucard.loaded-c .ufile{color:var(--purple);}
-.ucard.loaded-b .ufile{color:var(--green);}
-.umeta{font-size:.65rem;color:var(--text3);margin-top:.12rem;}
-.ucard-hint{font-size:.63rem;color:var(--text3);margin-top:.65rem;padding-top:.55rem;border-top:1px dashed var(--border2);}
-.ucard.loaded-a .ucard-hint,.ucard.loaded-c .ucard-hint,.ucard.loaded-b .ucard-hint{display:none;}
+/* ─── Lookup card ─── */
+.lookup-card{border:2px dashed var(--border2);border-radius:10px;padding:1.1rem 1.25rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:all .2s;background:var(--bg3);position:relative;margin-bottom:1.25rem;}
+.lookup-card:hover,.lookup-card.drag{border-color:var(--green);background:var(--green-light);}
+.lookup-card.loaded{border-style:solid;border-color:var(--green);background:var(--green-light);cursor:default;}
+.lookup-icon{width:40px;height:40px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;box-shadow:var(--shadow);}
+.lookup-body{flex:1;min-width:0;}
+.lookup-label{font-size:.82rem;font-weight:600;color:var(--text);display:flex;align-items:center;gap:.5rem;margin-bottom:.15rem;}
+.lookup-badge{background:var(--green-light);color:var(--green);border:1px solid #bbf7d0;font-size:.6rem;font-weight:600;padding:.15rem .45rem;border-radius:20px;}
+.lookup-sub{font-size:.7rem;color:var(--text3);}
+.lookup-file{font-size:.72rem;font-weight:500;color:var(--green);margin-top:.25rem;word-break:break-all;}
+.lookup-hint{font-size:.68rem;color:var(--text3);white-space:nowrap;flex-shrink:0;}
+.lookup-card.loaded .lookup-hint{display:none;}
 
-/* Source badges in table */
-.src-p{display:inline-flex;align-items:center;gap:.25rem;background:var(--accent-light);color:var(--accent);border:1px solid #bfdbfe;font-size:.63rem;font-weight:600;padding:.15rem .45rem;border-radius:4px;white-space:nowrap;}
-.src-s{display:inline-flex;align-items:center;gap:.25rem;background:var(--purple-light);color:var(--purple);border:1px solid #ddd6fe;font-size:.63rem;font-weight:600;padding:.15rem .45rem;border-radius:4px;white-space:nowrap;}
+/* ─── Comparison file cards ─── */
+.comp-section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;}
+.comp-section-label{font-size:.72rem;font-weight:600;color:var(--text2);}
+.comp-section-sub{font-size:.65rem;color:var(--text3);font-weight:400;}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;}
+.comp-card{border:2px dashed var(--border2);border-radius:10px;padding:1.15rem 1rem 1rem;text-align:center;position:relative;cursor:pointer;transition:border-color .2s,background .2s;background:var(--bg3);user-select:none;}
+.comp-card:hover,.comp-card.drag{border-color:var(--accent);background:var(--accent-light);}
+.comp-card.loaded{border-style:solid;cursor:default;}
+.comp-card.loaded:hover{border-color:inherit;background:inherit;}
+.comp-color-bar{position:absolute;top:0;left:0;right:0;height:3px;border-radius:9px 9px 0 0;}
+.comp-remove{position:absolute;top:.45rem;right:.45rem;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.04);border:1px solid var(--border2);color:var(--text3);font-size:.6rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:all .15s;z-index:3;line-height:1;}
+.comp-card:hover .comp-remove,.comp-card.loaded .comp-remove{display:flex;}
+.comp-remove:hover{background:var(--red-light);border-color:var(--red);color:var(--red);}
+.comp-loaded-badge{font-size:.6rem;font-weight:600;padding:.12rem .4rem;border-radius:20px;margin-bottom:.45rem;display:inline-block;}
+.comp-name-input{font-size:.78rem;font-weight:600;border:1px solid transparent;border-radius:5px;padding:.15rem .4rem;background:transparent;text-align:center;width:100%;font-family:inherit;transition:border .15s,background .15s;cursor:text;}
+.comp-name-input:hover{border-color:var(--border2);background:rgba(255,255,255,.6);}
+.comp-name-input:focus{outline:none;border-color:var(--accent);background:var(--bg2);}
+.comp-empty-icon{width:36px;height:36px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.95rem;margin:0 auto .5rem;box-shadow:var(--shadow);}
+.comp-empty-name{font-size:.78rem;font-weight:600;color:var(--text2);margin-bottom:.2rem;}
+.comp-empty-sub{font-size:.67rem;color:var(--text3);}
+.comp-empty-hint{font-size:.62rem;color:var(--text3);margin-top:.5rem;padding-top:.4rem;border-top:1px dashed var(--border2);}
+.comp-meta{font-size:.63rem;color:var(--text3);margin-top:.1rem;}
+.add-comp-btn{border:2px dashed var(--border2);border-radius:10px;padding:1.15rem 1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;cursor:pointer;transition:all .2s;background:transparent;color:var(--text3);font-family:inherit;font-size:.74rem;font-weight:500;width:100%;}
+.add-comp-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+.add-icon{font-size:1.25rem;line-height:1;}
 
-/* Column selects */
-.sgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.85rem;margin-top:1rem;}
-.sgrid-divider{grid-column:1/-1;height:1px;background:var(--border);margin:.1rem 0;}
-.flabel{display:block;font-size:.71rem;font-weight:500;color:var(--text2);margin-bottom:.35rem;}
-select{background:var(--bg2);border:1.5px solid var(--border2);color:var(--text);border-radius:8px;padding:.48rem .75rem;font-family:inherit;font-size:.8rem;width:100%;cursor:pointer;transition:border .15s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%239ca3af' d='M5 7L0 2h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .65rem center;}
+/* ─── Column config ─── */
+.col-config-divider{border:none;border-top:1px solid var(--border);margin:1.4rem 0 1rem;}
+.col-file-block{margin-bottom:1rem;}
+.col-file-title{font-size:.7rem;font-weight:600;margin-bottom:.55rem;display:flex;align-items:center;gap:.4rem;}
+.col-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sg2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.flabel{display:block;font-size:.71rem;font-weight:500;color:var(--text2);margin-bottom:.3rem;}
+select{background:var(--bg2);border:1.5px solid var(--border2);color:var(--text);border-radius:8px;padding:.45rem .75rem;font-family:inherit;font-size:.78rem;width:100%;cursor:pointer;transition:border .15s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%239ca3af' d='M5 7L0 2h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .65rem center;}
 select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
 
-/* Options */
+/* ─── Options / buttons ─── */
 .optrow{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
 .togrow{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--text2);cursor:pointer;}
 .tog{position:relative;width:36px;height:20px;flex-shrink:0;}
@@ -117,37 +132,54 @@ select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(3
 .thrrow{display:flex;align-items:center;gap:.65rem;font-size:.75rem;color:var(--text2);}
 input[type=range]{accent-color:var(--accent);width:110px;cursor:pointer;}
 .thrval{color:var(--accent);font-weight:600;min-width:32px;}
-
-/* Buttons */
 .btn{cursor:pointer;border:none;border-radius:8px;padding:.58rem 1.2rem;font-family:inherit;font-size:.8rem;font-weight:600;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:.4rem;}
 .btn-acc{background:var(--accent);color:#fff;box-shadow:0 1px 2px rgba(37,99,235,.25);}
 .btn-acc:hover:not(:disabled){background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 8px rgba(37,99,235,.2);}
+.btn-stop{background:#dc2626;color:#fff;}
+.btn-stop:hover{background:#b91c1c;}
 .btn-ghost{background:var(--bg2);color:var(--text2);border:1.5px solid var(--border2);}
 .btn-ghost:hover:not(:disabled){background:var(--bg3);color:var(--text);}
 .btn:disabled{opacity:.35;cursor:not-allowed;}
 .runrow{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-top:1rem;}
 .runnote{font-size:.72rem;color:var(--text3);}
-.aresnote{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:.6rem .85rem;font-size:.72rem;color:#92400e;margin-top:.85rem;display:none;}
-.errmsg{background:var(--red-light);border:1px solid #fecaca;border-radius:8px;padding:.65rem .9rem;font-size:.75rem;color:var(--red);margin-top:.6rem;display:none;}
+.errmsg{background:var(--red-light);border:1px solid #fecaca;border-radius:8px;padding:.65rem .9rem;font-size:.75rem;color:var(--red);margin-top:.75rem;display:none;}
 
-/* Progress */
+/* ─── Progress ─── */
 .progwrap{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;}
-.progtop{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text2);margin-bottom:.65rem;font-weight:500;}
+.progtop{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text2);margin-bottom:.65rem;font-weight:500;align-items:center;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.spin-ring{width:13px;height:13px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .65s linear infinite;display:inline-block;vertical-align:middle;margin-right:.4rem;}
 .progbar{background:var(--border);border-radius:99px;height:6px;overflow:hidden;}
-.progfill{height:100%;background:linear-gradient(90deg,var(--accent),#60a5fa);transition:width .25s;border-radius:99px;}
+.progfill{height:100%;background:linear-gradient(90deg,var(--accent),#60a5fa);transition:width .3s ease;border-radius:99px;}
 .progphase{font-size:.68rem;color:var(--text3);margin-top:.4rem;}
 .prog-phases{display:flex;gap:.5rem;margin-top:.75rem;flex-wrap:wrap;}
 .prog-phase-item{font-size:.68rem;color:var(--text3);padding:.2rem .6rem;border-radius:20px;border:1px solid var(--border2);background:var(--bg3);transition:all .2s;}
 .prog-phase-item.active{color:var(--accent);border-color:var(--accent);background:var(--accent-light);font-weight:600;}
 .prog-phase-item.done{color:var(--green);border-color:#bbf7d0;background:var(--green-light);}
 
-/* Stats */
-.statsrow{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;}
+/* ─── Stats ─── */
+.statsrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:.7rem;}
 .stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.85rem 1rem;box-shadow:var(--shadow);}
 .statn{font-size:1.4rem;font-weight:700;line-height:1;letter-spacing:-.5px;}
 .statl{font-size:.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:.3rem;font-weight:500;}
 
-/* Table */
+/* ─── Export config ─── */
+.export-fixed-row{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1rem;padding-bottom:.9rem;border-bottom:1px solid var(--border);}
+.export-fixed-tag{font-size:.68rem;font-weight:600;padding:.22rem .6rem;border-radius:5px;background:var(--bg3);border:1px solid var(--border2);color:var(--text2);}
+.export-col-list{display:flex;flex-direction:column;gap:.35rem;max-height:340px;overflow-y:auto;padding-right:.25rem;}
+.export-group-hdr{font-size:.68rem;font-weight:600;padding:.35rem .6rem;border-radius:6px;display:flex;align-items:center;gap:.4rem;margin-top:.6rem;}
+.export-group-hdr:first-child{margin-top:0;}
+.export-col-item{display:flex;align-items:center;gap:.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:.48rem .75rem;transition:border-color .1s;}
+.export-col-item:hover{border-color:var(--border2);}
+.export-col-check{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;}
+.export-col-label{flex:1;font-size:.77rem;color:var(--text);}
+.export-col-src{font-size:.61rem;font-weight:600;padding:.1rem .35rem;border-radius:3px;white-space:nowrap;flex-shrink:0;}
+.export-arrows{display:flex;gap:.2rem;flex-shrink:0;}
+.export-arrows button{border:1px solid var(--border2);background:var(--bg2);color:var(--text3);border-radius:4px;width:21px;height:21px;cursor:pointer;font-size:.65rem;display:flex;align-items:center;justify-content:center;transition:all .1s;padding:0;line-height:1;}
+.export-arrows button:hover{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.export-actions{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+
+/* ─── Table ─── */
 .tbtoolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;margin-bottom:.85rem;}
 .tbinfo{font-size:.75rem;color:var(--text3);}
 .tbinfo b{color:var(--text);font-weight:600;}
@@ -160,20 +192,18 @@ th.sortable{cursor:pointer;user-select:none;}
 th.sortable:hover{color:var(--text2);background:#e8eaed;}
 th.sort-asc::after{content:' ↑';color:var(--accent);}
 th.sort-desc::after{content:' ↓';color:var(--accent);}
-td{padding:.65rem .9rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+td{padding:.6rem .9rem;border-bottom:1px solid var(--border);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
-tr:hover td{background:var(--bg3);}
+tbody tr:nth-child(even) td{background:rgba(0,0,0,.016);}
+tbody tr:hover td{background:var(--accent-light)!important;}
 .nc{color:var(--text);font-weight:500;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .mc{color:var(--text2);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .pill{display:inline-flex;align-items:center;border-radius:5px;padding:.2rem .5rem;font-size:.7rem;font-weight:600;white-space:nowrap;}
 .mtag{font-size:.63rem;color:var(--text3);padding:.15rem .4rem;border:1px solid var(--border2);border-radius:4px;background:var(--bg3);white-space:nowrap;}
-.atag{font-size:.63rem;padding:.15rem .4rem;border-radius:4px;white-space:nowrap;font-weight:500;}
-.a-ok{background:var(--green-light);color:var(--green);border:1px solid #bbf7d0;}
-.a-no{background:var(--red-light);color:var(--red);border:1px solid #fecaca;}
-.a-skip{color:var(--text3);}
+.src-badge{display:inline-flex;align-items:center;font-size:.63rem;font-weight:600;padding:.15rem .45rem;border-radius:4px;white-space:nowrap;}
 .top3txt{font-size:.65rem;color:var(--text3);line-height:1.65;white-space:normal;min-width:140px;}
 
-/* Quick Search */
+/* ─── Quick Search ─── */
 .qs-input-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
 .qs-input-wrap{position:relative;flex:1;min-width:240px;}
 .qs-icon{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);font-size:.9rem;pointer-events:none;}
@@ -189,138 +219,133 @@ tr:hover td{background:var(--bg3);}
 .qs-row:hover{border-color:var(--accent);background:var(--accent-light);}
 .qs-rank{font-size:.68rem;font-weight:700;color:var(--text3);min-width:18px;text-align:center;}
 .qs-name{flex:1;font-size:.82rem;font-weight:500;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.qs-norm{font-size:.65rem;color:var(--text3);margin-top:.1rem;}
 .qs-score{display:flex;flex-direction:column;align-items:flex-end;gap:.2rem;flex-shrink:0;}
 .qs-bar-wrap{width:72px;height:4px;background:var(--border);border-radius:99px;overflow:hidden;}
 .qs-bar{height:100%;border-radius:99px;}
 .qs-pct{font-size:.72rem;font-weight:700;}
-.qs-src-p{font-size:.6rem;font-weight:600;padding:.1rem .35rem;border-radius:3px;background:var(--accent-light);color:var(--accent);border:1px solid #bfdbfe;white-space:nowrap;flex-shrink:0;}
-.qs-src-s{font-size:.6rem;font-weight:600;padding:.1rem .35rem;border-radius:3px;background:var(--purple-light);color:var(--purple);border:1px solid #ddd6fe;white-space:nowrap;flex-shrink:0;}
 .qs-match{font-size:.68rem;color:var(--green);font-weight:500;margin-top:.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .qs-nomatch{font-size:.68rem;color:var(--text3);margin-top:.15rem;}
 </style>
-<script defer="" src="file:///C:/_vercel/insights/script.js"></script>
-<script defer="" src="file:///C:/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 <div class="shell">
 
-<!-- SIDEBAR -->
+<!-- ═══ SIDEBAR ═══ -->
 <aside class="sidebar">
   <div class="logo">
     <div class="logo-main"><div class="logo-icon">⚡</div>Company Matcher</div>
-    <div class="logo-sub">Fuzzy matching · ARES · Export</div>
-    <div class="logo-badge">PRO v6</div>
+    <div class="logo-sub">Fuzzy matching · Export</div>
+    <div class="logo-badge">PRO v7</div>
   </div>
   <div class="steps">
-    <div class="step active" id="s1"><div class="snum">1</div><div><div class="st">Nahrát soubory</div><div class="sd">Prospects · Sold-to · Lookup</div></div></div>
-    <div class="step" id="s2"><div class="snum">2</div><div><div class="st">Nastavit sloupce</div><div class="sd">Které sloupce mají firmy</div></div></div>
-    <div class="step" id="s3"><div class="snum">3</div><div><div class="st">Spustit matching</div><div class="sd">Fuzzy algoritmy + ARES</div></div></div>
-    <div class="step" id="s4"><div class="snum">4</div><div><div class="st">Výsledky &amp; export</div><div class="sd">Excel s matches a skóre</div></div></div>
+    <div class="step active" id="s1">
+      <div class="snum">1</div>
+      <div><div class="st">Upload Files</div><div class="sd">Lookup · comparison files</div></div>
+    </div>
+    <div class="step" id="s2">
+      <div class="snum">2</div>
+      <div><div class="st">Configure Columns</div><div class="sd">Map company name fields</div></div>
+    </div>
+    <div class="step" id="s3">
+      <div class="snum">3</div>
+      <div><div class="st">Run Matching</div><div class="sd">Fuzzy algorithms</div></div>
+    </div>
+    <div class="step" id="s4">
+      <div class="snum">4</div>
+      <div><div class="st">Results &amp; Export</div><div class="sd">Excel with matches &amp; scores</div></div>
+    </div>
   </div>
   <div class="sfoot">
-    Vše běží lokálně.<br>Soubory nikam neodcházejí.<br><br>
-    ARES dotazy jdou online přes<br>ares.gov.cz (volitelné).
+    Everything runs locally.<br>No files leave your browser.<br><br>
+    <!-- FUTURE: registry lookups (CZ ARES,<br>SK ORSR, PL KRS, HU Cégszolgálat)<br>will appear here when enabled. -->
   </div>
 </aside>
 
-<!-- MAIN -->
+<!-- ═══ MAIN ═══ -->
 <main class="main">
 
   <!-- Panel: Upload -->
   <div class="panel">
-    <div class="ptitle">1 · Nahrát soubory</div>
-    <div class="ugrid">
+    <div class="ptitle">1 · Upload Files</div>
 
-      <!-- Prospects -->
-      <div class="ucard" id="cardA" onclick="document.getElementById(&#39;inpA&#39;).click()" ondragover="dragOver(event,&#39;A&#39;)" ondragleave="dragLeave(&#39;A&#39;)" ondrop="dragDrop(event,&#39;A&#39;)">
-        <input type="file" id="inpA" accept=".xlsx,.xls,.csv" style="display:none" onchange="loadFile(&#39;A&#39;,this.files[0])">
-        <div class="ucard-badge" id="badgeA">✓ Nahráno</div>
-        <div class="uicon">📋</div>
-        <div class="ulabel">Prospects</div>
-        <div class="usub">Hlavní soubor – firmy k párování</div>
-        <div class="ufile" id="fileA"></div>
-        <div class="umeta" id="metaA"></div>
-        <div class="ucard-hint">Klikni nebo přetáhni<br>.xlsx · .xls · .csv</div>
+    <!-- Lookup (fixed reference list) -->
+    <div class="lookup-card" id="lookupCard"
+         onclick="document.getElementById('inpLookup').click()"
+         ondragover="lkDragOver(event)" ondragleave="lkDragLeave()" ondrop="lkDragDrop(event)">
+      <input type="file" id="inpLookup" accept=".xlsx,.xls,.csv" style="display:none" onchange="loadLookup(this.files[0])">
+      <div class="lookup-icon">🗂️</div>
+      <div class="lookup-body">
+        <div class="lookup-label">
+          Lookup List
+          <span class="lookup-badge" id="lookupBadge" style="display:none">✓ Loaded</span>
+        </div>
+        <div class="lookup-sub" id="lookupSub">Reference list — companies to match against · Required</div>
+        <div class="lookup-file" id="lookupFile"></div>
       </div>
-
-      <!-- Sold-to -->
-      <div class="ucard" id="cardC" onclick="document.getElementById(&#39;inpC&#39;).click()" ondragover="dragOver(event,&#39;C&#39;)" ondragleave="dragLeave(&#39;C&#39;)" ondrop="dragDrop(event,&#39;C&#39;)">
-        <input type="file" id="inpC" accept=".xlsx,.xls,.csv" style="display:none" onchange="loadFile(&#39;C&#39;,this.files[0])">
-        <div class="ucard-badge" id="badgeC">✓ Nahráno</div>
-        <div class="uicon">💼</div>
-        <div class="ulabel">Sold-to <span class="ulabel-opt">(volitelné)</span></div>
-        <div class="usub">Druhý soubor – stávající zákazníci</div>
-        <div class="ufile" id="fileC"></div>
-        <div class="umeta" id="metaC"></div>
-        <div class="ucard-hint">Klikni nebo přetáhni<br>.xlsx · .xls · .csv</div>
-      </div>
-
-      <!-- Lookup -->
-      <div class="ucard" id="cardB" onclick="document.getElementById(&#39;inpB&#39;).click()" ondragover="dragOver(event,&#39;B&#39;)" ondragleave="dragLeave(&#39;B&#39;)" ondrop="dragDrop(event,&#39;B&#39;)">
-        <input type="file" id="inpB" accept=".xlsx,.xls,.csv" style="display:none" onchange="loadFile(&#39;B&#39;,this.files[0])">
-        <div class="ucard-badge" id="badgeB">✓ Nahráno</div>
-        <div class="uicon">🗂️</div>
-        <div class="ulabel">Lookup seznam</div>
-        <div class="usub">Referenční seznam – párování</div>
-        <div class="ufile" id="fileB"></div>
-        <div class="umeta" id="metaB"></div>
-        <div class="ucard-hint">Klikni nebo přetáhni<br>.xlsx · .xls · .csv</div>
-      </div>
-
+      <div class="lookup-hint" id="lookupHint">Click or drag &amp; drop · .xlsx .xls .csv</div>
     </div>
+
+    <!-- Comparison files (dynamic) -->
+    <div class="comp-section-hdr">
+      <span class="comp-section-label">Comparison Files <span class="comp-section-sub">— matched against the Lookup</span></span>
+    </div>
+    <div class="comp-grid" id="compGrid">
+      <button class="add-comp-btn" onclick="addCompFile()">
+        <span class="add-icon">+</span>
+        <span>Add comparison file</span>
+      </button>
+    </div>
+
     <div class="errmsg" id="errMsg"></div>
 
-    <!-- Column config -->
+    <!-- Column config (reveals after files loaded) -->
     <div id="configArea" style="display:none">
-      <div class="ptitle" style="margin-top:1.25rem;">2 · Nastavit sloupce</div>
-      <div class="sgrid">
-        <div>
-          <label class="flabel" style="color:var(--accent);">● Prospects – název firmy *</label>
-          <select id="selAN" onchange="onColChange()"><option value="">— vyber sloupec —</option></select>
+      <hr class="col-config-divider">
+      <div class="ptitle" style="margin-bottom:.9rem;">2 · Configure Columns</div>
+
+      <!-- Lookup columns -->
+      <div class="col-file-block">
+        <div class="col-file-title">
+          <div class="col-dot" style="background:var(--green)"></div>
+          <span style="color:var(--green)">Lookup List</span>
         </div>
-        <div id="colCWrap">
-          <label class="flabel" style="color:var(--purple);">● Sold-to – název firmy</label>
-          <select id="selCN" onchange="onColChange()"><option value="">— bez Sold-to —</option></select>
-        </div>
-        <div>
-          <label class="flabel" style="color:var(--green);">● Lookup – název firmy *</label>
-          <select id="selBN" onchange="onColChange()"><option value="">— vyber sloupec —</option></select>
-        </div>
-        <div>
-          <label class="flabel">Prospects – IČO (volitelné)</label>
-          <select id="selAI"><option value="">— bez IČO —</option></select>
-        </div>
-        <div id="colCIWrap">
-          <label class="flabel">Sold-to – IČO (volitelné)</label>
-          <select id="selCI"><option value="">— bez IČO —</option></select>
-        </div>
-        <div>
-          <label class="flabel">Lookup – IČO (volitelné)</label>
-          <select id="selBI"><option value="">— bez IČO —</option></select>
+        <div class="sg2">
+          <div>
+            <label class="flabel">Company name column *</label>
+            <select id="selLookupN" onchange="onColChange()"><option value="">— select column —</option></select>
+          </div>
+          <div>
+            <label class="flabel">ID / Registration number (optional)</label>
+            <select id="selLookupI"><option value="">— none —</option></select>
+          </div>
         </div>
       </div>
 
+      <!-- Comparison file columns (injected dynamically) -->
+      <div id="compColsArea"></div>
+
+      <!-- Options -->
       <div class="optrow">
         <div class="thrrow">
-          <span>Min. shoda:</span>
-          <input type="range" min="0" max="90" value="35" id="thrInp" oninput="document.getElementById(&#39;thrVal&#39;).textContent=this.value+&#39;%&#39;">
+          <span>Min. match score:</span>
+          <input type="range" min="0" max="90" value="35" id="thrInp" oninput="document.getElementById('thrVal').textContent=this.value+'%'">
           <span class="thrval" id="thrVal">35%</span>
         </div>
         <label class="togrow">
-          <div class="tog"><input type="checkbox" id="togAres" onchange="onAresToggle()"><div class="togsl"></div></div>
-          Ověřit přes ARES
+          <div class="tog"><input type="checkbox" id="togTop3" checked><div class="togsl"></div></div>
+          Show top 3 candidates
         </label>
+        <!-- FUTURE: registry verification toggle
         <label class="togrow">
-          <div class="tog"><input type="checkbox" id="togTop3" checked=""><div class="togsl"></div></div>
-          Top 3 kandidáti
+          <div class="tog"><input type="checkbox" id="togRegistry"><div class="togsl"></div></div>
+          Verify via registry (ARES / ORSR / KRS)
         </label>
+        -->
       </div>
-      <div class="aresnote" id="aresNote">⚡ ARES ověření volá živé API pro každý řádek – u velkých souborů to trvá déle.</div>
 
       <div class="runrow">
-        <button class="btn btn-acc" id="btnRun" onclick="runMatch()" disabled="">▶ Spustit matching</button>
-        <button class="btn btn-ghost" id="btnStop" onclick="doStop()" style="display:none">⏹ Zastavit</button>
+        <button class="btn btn-acc" id="btnRun" onclick="runMatch()" disabled>▶ Start Matching</button>
+        <button class="btn btn-stop" id="btnStop" onclick="doStop()" style="display:none">⏹ Stop</button>
         <span class="runnote" id="runNote"></span>
       </div>
     </div>
@@ -328,16 +353,18 @@ tr:hover td{background:var(--bg3);}
 
   <!-- Panel: Progress -->
   <div class="panel" id="panelProg" style="display:none">
-    <div class="ptitle">Průběh</div>
+    <div class="ptitle">Matching in Progress</div>
     <div class="progwrap">
-      <div class="progtop"><span id="progLbl">Připravuji…</span><span id="progPct">0%</span></div>
+      <div class="progtop">
+        <span><span class="spin-ring" id="spinRing"></span><span id="progLbl">Preparing…</span></span>
+        <span id="progPct" style="font-weight:700;color:var(--accent)">0%</span>
+      </div>
       <div class="progbar"><div class="progfill" id="progFill" style="width:0"></div></div>
       <div class="progphase" id="progPhase"></div>
-      <div class="prog-phases" id="progPhases">
-        <div class="prog-phase-item active" id="ph1">① Sestavuji index</div>
+      <div class="prog-phases">
+        <div class="prog-phase-item active" id="ph1">① Building index</div>
         <div class="prog-phase-item" id="ph2">② Fuzzy matching</div>
-        <div class="prog-phase-item" id="ph3">③ ARES ověření</div>
-        <div class="prog-phase-item" id="ph4">④ Hotovo</div>
+        <div class="prog-phase-item" id="ph3">③ Done</div>
       </div>
     </div>
   </div>
@@ -345,39 +372,56 @@ tr:hover td{background:var(--bg3);}
   <!-- Stats -->
   <div id="panelStats" style="display:none">
     <div class="statsrow">
-      <div class="stat"><div class="statn" id="stTotal" style="color:var(--text3)">0</div><div class="statl">Celkem</div></div>
-      <div class="stat"><div class="statn" id="stProspects" style="color:var(--accent)">0</div><div class="statl">Prospects</div></div>
-      <div class="stat"><div class="statn" id="stSoldTo" style="color:var(--purple)">0</div><div class="statl">Sold-to</div></div>
-      <div class="stat"><div class="statn" id="stMatched" style="color:var(--green)">0</div><div class="statl">Spárováno</div></div>
-      <div class="stat"><div class="statn" id="stStrong" style="color:var(--orange)">0</div><div class="statl">Silná ≥75%</div></div>
-      <div class="stat"><div class="statn" id="stNone" style="color:var(--red)">0</div><div class="statl">Nespárováno</div></div>
+      <div class="stat"><div class="statn" id="stTotal" style="color:var(--text3)">0</div><div class="statl">Total rows</div></div>
+      <div class="stat"><div class="statn" id="stMatched" style="color:var(--green)">0</div><div class="statl">Matched</div></div>
+      <div class="stat"><div class="statn" id="stStrong" style="color:var(--accent)">0</div><div class="statl">Strong ≥75%</div></div>
+      <div class="stat"><div class="statn" id="stMed" style="color:var(--orange)">0</div><div class="statl">Medium 50–74%</div></div>
+      <div class="stat"><div class="statn" id="stWeak" style="color:var(--orange)">0</div><div class="statl">Weak &lt;50%</div></div>
+      <div class="stat"><div class="statn" id="stNone" style="color:var(--red)">0</div><div class="statl">No match</div></div>
+    </div>
+  </div>
+
+  <!-- Panel: Export Config -->
+  <div class="panel" id="panelExport" style="display:none">
+    <div class="ptitle">Export Configuration</div>
+    <div style="font-size:.72rem;color:var(--text2);margin-bottom:.55rem;font-weight:500;">Always included:</div>
+    <div class="export-fixed-row">
+      <span class="export-fixed-tag">Match Name</span>
+      <span class="export-fixed-tag">Score %</span>
+      <span class="export-fixed-tag">Method</span>
+      <span class="export-fixed-tag">Registry Status <span style="color:var(--text3);font-weight:400">(future)</span></span>
+      <span class="export-fixed-tag">Source File</span>
+      <span class="export-fixed-tag">Input Name</span>
+    </div>
+    <div style="font-size:.72rem;color:var(--text2);margin-bottom:.65rem;font-weight:500;">Configurable columns — check to include, use arrows to reorder:</div>
+    <div class="export-col-list" id="exportColList"></div>
+    <div class="export-actions">
+      <button class="btn btn-acc" onclick="doExportExcel()">⬇ Download Excel</button>
+      <button class="btn btn-ghost" onclick="doExportCSV()">⬇ Download CSV</button>
+      <span style="font-size:.7rem;color:var(--text3)">Excel includes matched / unmatched sheets</span>
     </div>
   </div>
 
   <!-- Panel: Results -->
   <div class="panel" id="panelResults" style="display:none">
-    <div class="ptitle">4 · Výsledky</div>
+    <div class="ptitle">4 · Results</div>
     <div class="tbtoolbar">
-      <div class="tbinfo">Zobrazeno <b id="dispN">0</b> z <b id="totN">0</b></div>
+      <div class="tbinfo">Showing <b id="dispN">0</b> of <b id="totN">0</b></div>
       <div class="tbright">
         <select id="srcSel" onchange="renderTable()" style="width:auto;padding:.3rem .55rem;font-size:.69rem;">
-          <option value="all">Všechny zdroje</option>
-          <option value="prospects">Pouze Prospects</option>
-          <option value="soldto">Pouze Sold-to</option>
+          <option value="all">All sources</option>
         </select>
         <select id="filSel" onchange="renderTable()" style="width:auto;padding:.3rem .55rem;font-size:.69rem;">
-          <option value="all" id="fAll">Vše</option>
-          <option value="strong" id="fStrong">Silná ≥75%</option>
-          <option value="med" id="fMed">Střední 50–74%</option>
-          <option value="weak" id="fWeak">Slabá &lt;50%</option>
-          <option value="none" id="fNone">⚠ Nespárováno</option>
+          <option value="all" id="fAll">All</option>
+          <option value="strong" id="fStrong">Strong ≥75%</option>
+          <option value="med" id="fMed">Medium 50–74%</option>
+          <option value="weak" id="fWeak">Weak &lt;50%</option>
+          <option value="none" id="fNone">No match</option>
         </select>
         <select id="srtSel" onchange="renderTable()" style="width:auto;padding:.3rem .55rem;font-size:.69rem;">
-          <option value="row">Pořadí řádků</option>
-          <option value="score">Dle skóre</option>
+          <option value="row">Original order</option>
+          <option value="score">By score</option>
         </select>
-        <button class="btn btn-acc" onclick="doExportExcel()" style="padding:.38rem .85rem;font-size:.7rem;">⬇ Export Lookup</button>
-        <button class="btn btn-ghost" onclick="doExportCSV()" style="padding:.38rem .85rem;font-size:.7rem;">⬇ CSV</button>
       </div>
     </div>
     <div class="tblwrap">
@@ -385,13 +429,12 @@ tr:hover td{background:var(--bg3);}
         <thead>
           <tr>
             <th>#</th>
-            <th class="sortable" onclick="sortBy(&#39;source&#39;)">Zdroj</th>
-            <th class="sortable" onclick="sortBy(&#39;name&#39;)">Název firmy</th>
-            <th class="sortable" onclick="sortBy(&#39;match&#39;)">Nejlepší shoda – Lookup</th>
-            <th class="sortable" onclick="sortBy(&#39;score&#39;)">Skóre</th>
-            <th>Metoda</th>
-            <th>ARES</th>
-            <th>Top 2 &amp; 3 kandidáti</th>
+            <th class="sortable" onclick="sortBy('source')">Source</th>
+            <th class="sortable" onclick="sortBy('name')">Company Name</th>
+            <th class="sortable" onclick="sortBy('match')">Best Match — Lookup</th>
+            <th class="sortable" onclick="sortBy('score')">Score</th>
+            <th>Method</th>
+            <th>Top 2 &amp; 3</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -401,11 +444,11 @@ tr:hover td{background:var(--bg3);}
 
   <!-- Panel: Quick Search -->
   <div class="panel" id="panelQS" style="display:none">
-    <div class="ptitle">Rychlé vyhledání</div>
+    <div class="ptitle">Quick Search</div>
     <div class="qs-input-row">
       <div class="qs-input-wrap">
         <span class="qs-icon">🔍</span>
-        <input type="text" id="qsInput" class="qs-input" placeholder="Hledat v Prospects i Sold-to…" oninput="quickSearch()" autocomplete="off">
+        <input type="text" id="qsInput" class="qs-input" placeholder="Search across all comparison files…" oninput="quickSearch()" autocomplete="off">
         <button class="qs-clear" id="qsClear" onclick="clearQS()" style="display:none">✕</button>
       </div>
       <div class="qs-meta" id="qsMeta"></div>
@@ -420,137 +463,282 @@ tr:hover td{background:var(--bg3);}
 // ============================================================
 // STATE
 // ============================================================
-var dataA = null; // Prospects
-var dataB = null; // Lookup
-var dataC = null; // Sold-to (optional)
-var results = [];
-var abortFlag = false;
+var lookupData = null;  // {headers, rows}
+var compFiles  = [];    // [{id, name, color, headers, rows, colName, colIco}]
+var results    = [];
+var exportConfig = [];  // [{id, label, fileId, fileName, fileColor, colIdx, include, order}]
+var abortFlag  = false;
+var nextCompId = 1;
 
 // ============================================================
-// DRAG & DROP
+// COLOR PALETTE — assigned sequentially to comparison files
 // ============================================================
-function dragOver(e, k) { e.preventDefault(); document.getElementById('card'+k).classList.add('drag'); }
-function dragLeave(k)  { document.getElementById('card'+k).classList.remove('drag'); }
-function dragDrop(e, k){ e.preventDefault(); dragLeave(k); var f=e.dataTransfer.files[0]; if(f) loadFile(k,f); }
+var FILE_COLORS = [
+  {bg:'#eff4ff',border:'#2563eb',text:'#2563eb',light:'#bfdbfe'},  // blue
+  {bg:'#f5f3ff',border:'#7c3aed',text:'#7c3aed',light:'#ddd6fe'},  // purple
+  {bg:'#f0fdfa',border:'#0d9488',text:'#0d9488',light:'#99f6e4'},  // teal
+  {bg:'#fffbeb',border:'#d97706',text:'#d97706',light:'#fcd34d'},  // amber
+  {bg:'#fdf2f8',border:'#db2777',text:'#db2777',light:'#fbcfe8'},  // pink
+  {bg:'#eef2ff',border:'#4f46e5',text:'#4f46e5',light:'#c7d2fe'},  // indigo
+  {bg:'#ecfeff',border:'#0891b2',text:'#0891b2',light:'#a5f3fc'},  // cyan
+  {bg:'#fff1f2',border:'#e11d48',text:'#e11d48',light:'#fecdd3'},  // rose
+];
+function getColor(id) { return FILE_COLORS[(id - 1) % FILE_COLORS.length]; }
 
 // ============================================================
-// FILE LOADING
+// LOOKUP UPLOAD
 // ============================================================
-function loadFile(key, file) {
+function lkDragOver(e) { e.preventDefault(); document.getElementById('lookupCard').classList.add('drag'); }
+function lkDragLeave()  { document.getElementById('lookupCard').classList.remove('drag'); }
+function lkDragDrop(e)  { e.preventDefault(); lkDragLeave(); var f=e.dataTransfer.files[0]; if(f) loadLookup(f); }
+
+function loadLookup(file) {
   if (!file) return;
   hideErr();
-  var reader = new FileReader();
-  reader.onerror = function() { showErr('Nepodařilo se číst soubor.'); };
-  reader.onload = function(e) {
-    try {
-      var wb = XLSX.read(e.target.result, {type:'array'});
-      var ws = wb.Sheets[wb.SheetNames[0]];
-      var raw = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
-      if (!raw || raw.length < 2) { showErr('Soubor je prázdný nebo nemá žádné řádky dat.'); return; }
-      var headers = raw[0].map(function(h,i){ return h ? String(h).trim() : 'Sloupec '+(i+1); });
-      var rows = raw.slice(1).filter(function(r){ return r.some(function(c){ return String(c).trim(); }); });
-
-      if (key==='A') dataA = {headers:headers, rows:rows};
-      else if (key==='B') dataB = {headers:headers, rows:rows};
-      else if (key==='C') dataC = {headers:headers, rows:rows};
-
-      var loadClass = 'loaded-'+key.toLowerCase();
-      var card = document.getElementById('card'+key);
-      card.className = card.className.replace(/loaded-\w+/g,'').trim() + ' ' + loadClass;
-      card.classList.remove('drag');
-      document.getElementById('file'+key).textContent = file.name;
-      document.getElementById('meta'+key).textContent = rows.length+' řádků · '+headers.length+' sloupců';
-
-      // Show config when at minimum A+B loaded
-      if (dataA && dataB) {
-        document.getElementById('configArea').style.display = 'block';
-        populateCols('A', dataA.headers);
-        populateCols('B', dataB.headers);
-        // Sold-to columns
-        if (dataC) {
-          populateCols('C', dataC.headers);
-          document.getElementById('colCWrap').style.opacity = '1';
-          document.getElementById('colCIWrap').style.opacity = '1';
-        }
-        setStep(2);
-      }
-      // Show QS when A loaded
-      if (dataA) {
-        document.getElementById('panelQS').style.display = 'block';
-      }
-      // Update Sold-to cols if C just loaded
-      if (key==='C' && dataC) {
-        populateCols('C', dataC.headers);
-        document.getElementById('colCWrap').style.opacity = '1';
-        document.getElementById('colCIWrap').style.opacity = '1';
-        onColChange();
-      }
-    } catch(ex) {
-      showErr('Chyba při načítání souboru: '+ex.message);
-    }
-  };
-  reader.readAsArrayBuffer(file);
+  readFile(file, function(headers, rows) {
+    lookupData = {headers:headers, rows:rows};
+    var card = document.getElementById('lookupCard');
+    card.classList.add('loaded');
+    card.onclick = null;
+    document.getElementById('lookupFile').textContent = file.name + ' · ' + rows.length + ' rows · ' + headers.length + ' cols';
+    document.getElementById('lookupHint').style.display = 'none';
+    document.getElementById('lookupSub').style.display = 'none';
+    document.getElementById('lookupBadge').style.display = '';
+    populateLookupCols();
+    checkShowConfig();
+  });
 }
 
-function populateCols(key, headers) {
-  var nameId = 'sel'+key+'N', icoId = 'sel'+key+'I';
-  var placeholder = key==='C' ? '— bez Sold-to —' : '— vyber sloupec —';
-  var opts = headers.map(function(h,i){ return '<option value="'+i+'">'+esc(h)+'</option>'; }).join('');
-  document.getElementById(nameId).innerHTML = '<option value="">'+placeholder+'</option>'+opts;
-  document.getElementById(icoId).innerHTML = '<option value="">— bez IČO —</option>'+opts;
+function populateLookupCols() {
+  var h = lookupData.headers;
+  var opts = h.map(function(hd,i){ return '<option value="'+i+'">'+esc(hd)+'</option>'; }).join('');
+  document.getElementById('selLookupN').innerHTML = '<option value="">— select column —</option>' + opts;
+  document.getElementById('selLookupI').innerHTML = '<option value="">— none —</option>' + opts;
+  autoDetectCol('selLookupN', h, /nazev|name|firma|company|obchodni|spolecnost|subject|account|customer|client|partner/i);
+  autoDetectCol('selLookupI', h, /ico|\bic\b|reg.*num|vat/i);
+  onColChange();
+}
 
-  var detected = false;
-  headers.forEach(function(h,i) {
-    var hl = h.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-    if (/nazev|name|firma|company|obchodni|spolecnost|subject|account|customer|client|partner/.test(hl)) {
-      document.getElementById(nameId).value = i;
-      detected = true;
+// ============================================================
+// COMPARISON FILES
+// ============================================================
+function addCompFile() {
+  var id = nextCompId++;
+  compFiles.push({id:id, name:'File '+id, color:getColor(id), headers:[], rows:[], colName:'', colIco:''});
+  renderCompGrid();
+  setTimeout(function() {
+    var inp = document.getElementById('compInp'+id);
+    if (inp) inp.click();
+  }, 40);
+}
+
+function removeCompFile(id) {
+  compFiles = compFiles.filter(function(f){ return f.id !== id; });
+  results = [];
+  renderCompGrid();
+  renderCompCols();
+  updateSrcFilter();
+  onColChange();
+  document.getElementById('panelStats').style.display = 'none';
+  document.getElementById('panelResults').style.display = 'none';
+  document.getElementById('panelExport').style.display = 'none';
+  if (!compFiles.some(function(f){ return f.rows.length>0; })) {
+    document.getElementById('configArea').style.display = 'none';
+    document.getElementById('panelQS').style.display = 'none';
+    setStep(1);
+  }
+}
+
+function renderCompGrid() {
+  var grid = document.getElementById('compGrid');
+  var html = '';
+  compFiles.forEach(function(f) {
+    var c = f.color;
+    var loaded = f.rows.length > 0;
+    var cardStyle = loaded ? 'background:'+c.bg+';border-color:'+c.border+';border-style:solid;' : '';
+    html += '<div class="comp-card'+(loaded?' loaded':'')+'" id="compCard'+f.id+'" style="'+cardStyle+'"'
+      + (!loaded ? ' onclick="document.getElementById(\'compInp'+f.id+'\').click()"' : '')
+      + ' ondragover="cpDragOver(event,'+f.id+')" ondragleave="cpDragLeave('+f.id+')" ondrop="cpDragDrop(event,'+f.id+')">'
+      + '<div class="comp-color-bar" style="background:'+c.border+'"></div>'
+      + '<input type="file" id="compInp'+f.id+'" accept=".xlsx,.xls,.csv" style="display:none" onchange="loadCompFile('+f.id+',this.files[0])">'
+      + '<button class="comp-remove" onclick="event.stopPropagation();removeCompFile('+f.id+')" title="Remove file">✕</button>';
+    if (loaded) {
+      html += '<div class="comp-loaded-badge" style="background:'+c.bg+';color:'+c.text+';border:1px solid '+c.light+'">✓ Loaded</div>'
+        + '<input type="text" class="comp-name-input" id="compName'+f.id+'" value="'+esc(f.name)+'"'
+        +  ' onclick="event.stopPropagation()" onchange="renameComp('+f.id+',this.value)" style="color:'+c.text+'">'
+        + '<div class="comp-meta" id="compMeta'+f.id+'">'+f.rows.length+' rows · '+f.headers.length+' cols</div>';
+    } else {
+      html += '<div class="comp-empty-icon">📋</div>'
+        + '<div class="comp-empty-name">'+esc(f.name)+'</div>'
+        + '<div class="comp-empty-sub">Click to upload</div>'
+        + '<div class="comp-empty-hint">Drag &amp; drop or click<br>.xlsx · .xls · .csv</div>';
     }
-    if (/ico|\bic\b|reg.*num|vat/.test(hl)) {
-      document.getElementById(icoId).value = i;
+    html += '</div>';
+  });
+  html += '<button class="add-comp-btn" onclick="addCompFile()"><span class="add-icon">+</span><span>Add comparison file</span></button>';
+  grid.innerHTML = html;
+}
+
+function cpDragOver(e, id) { e.preventDefault(); var el=document.getElementById('compCard'+id); if(el) el.classList.add('drag'); }
+function cpDragLeave(id) { var el=document.getElementById('compCard'+id); if(el) el.classList.remove('drag'); }
+function cpDragDrop(e, id) { e.preventDefault(); cpDragLeave(id); var f=e.dataTransfer.files[0]; if(f) loadCompFile(id, f); }
+
+function loadCompFile(id, file) {
+  if (!file) return;
+  hideErr();
+  var cf = compFiles.find(function(f){ return f.id===id; });
+  if (!cf) return;
+  readFile(file, function(headers, rows) {
+    cf.headers = headers;
+    cf.rows = rows;
+    cf.name = file.name.replace(/\.[^.]+$/, '');
+    cf.colName = '';
+    cf.colIco = '';
+    renderCompGrid();
+    renderCompCols();
+    checkShowConfig();
+  });
+}
+
+function renameComp(id, newName) {
+  var cf = compFiles.find(function(f){ return f.id===id; });
+  if (cf) { cf.name = newName || ('File '+id); }
+  renderCompCols();
+  updateSrcFilter();
+}
+
+// ============================================================
+// COLUMN CONFIG (dynamic)
+// ============================================================
+function renderCompCols() {
+  var area = document.getElementById('compColsArea');
+  if (!area) return;
+  var loadedFiles = compFiles.filter(function(f){ return f.rows.length>0; });
+  if (!loadedFiles.length) { area.innerHTML = ''; return; }
+
+  var html = '';
+  loadedFiles.forEach(function(cf, idx) {
+    var c = cf.color;
+    html += (idx > 0 ? '<hr style="border:none;border-top:1px solid var(--border);margin:.75rem 0">' : '')
+      + '<div class="col-file-block" id="compCols'+cf.id+'">'
+      + '<div class="col-file-title"><div class="col-dot" style="background:'+c.border+'"></div>'
+      + '<span style="color:'+c.text+'">'+esc(cf.name)+'</span></div>'
+      + '<div class="sg2">'
+      + '<div><label class="flabel">Company name column *</label>'
+      + '<select id="compSelN'+cf.id+'" onchange="onCompColN('+cf.id+')">'
+      + '<option value="">— select column —</option>'
+      + cf.headers.map(function(h,i){ return '<option value="'+i+'"'+(cf.colName===String(i)?' selected':'')+'>'+esc(h)+'</option>'; }).join('')
+      + '</select></div>'
+      + '<div><label class="flabel">ID / Registration number (optional)</label>'
+      + '<select id="compSelI'+cf.id+'" onchange="onCompColI('+cf.id+')">'
+      + '<option value="">— none —</option>'
+      + cf.headers.map(function(h,i){ return '<option value="'+i+'"'+(cf.colIco===String(i)?' selected':'')+'>'+esc(h)+'</option>'; }).join('')
+      + '</select></div>'
+      + '</div></div>';
+  });
+  area.innerHTML = html;
+
+  // Auto-detect for files that haven't had columns set yet
+  loadedFiles.forEach(function(cf) {
+    if (cf.colName === '') {
+      autoDetectCol('compSelN'+cf.id, cf.headers, /nazev|name|firma|company|obchodni|spolecnost|subject|account|customer|client|partner/i);
+      cf.colName = document.getElementById('compSelN'+cf.id).value;
+    }
+    if (cf.colIco === '') {
+      autoDetectCol('compSelI'+cf.id, cf.headers, /ico|\bic\b|reg.*num|vat/i);
+      cf.colIco = document.getElementById('compSelI'+cf.id).value;
     }
   });
-  if (!detected && headers.length > 0 && key !== 'C') {
-    document.getElementById(nameId).value = 0;
+  onColChange();
+}
+
+function onCompColN(id) {
+  var cf = compFiles.find(function(f){ return f.id===id; });
+  if (cf) cf.colName = document.getElementById('compSelN'+id).value;
+  onColChange();
+}
+function onCompColI(id) {
+  var cf = compFiles.find(function(f){ return f.id===id; });
+  if (cf) cf.colIco = document.getElementById('compSelI'+id).value;
+}
+
+function checkShowConfig() {
+  var hasComp = compFiles.some(function(f){ return f.rows.length>0; });
+  if (lookupData && hasComp) {
+    document.getElementById('configArea').style.display = 'block';
+    document.getElementById('panelQS').style.display = 'block';
+    setStep(2);
   }
   onColChange();
 }
 
 function onColChange() {
-  var aN = document.getElementById('selAN').value;
-  var bN = document.getElementById('selBN').value;
-  var ok = aN !== '' && bN !== '';
-  document.getElementById('btnRun').disabled = !ok;
+  var lkN = document.getElementById('selLookupN') ? document.getElementById('selLookupN').value : '';
+  var loadedComps = compFiles.filter(function(f){ return f.rows.length>0; });
+  var allCompOk = loadedComps.length > 0 && loadedComps.every(function(f){ return f.colName !== ''; });
+  var ok = lookupData !== null && lkN !== '' && allCompOk;
+
+  var btn = document.getElementById('btnRun');
+  if (btn) btn.disabled = !ok;
+
   var note = document.getElementById('runNote');
-  if (ok && dataA) {
-    var total = dataA.rows.length + (dataC ? dataC.rows.length : 0);
+  if (!note) return;
+  if (ok) {
+    var total = loadedComps.reduce(function(s,f){ return s+f.rows.length; }, 0);
     note.style.color = '';
-    note.textContent = total + ' řádků bude zpracováno' + (dataC ? ' (Prospects + Sold-to)' : '');
-  } else if (!dataA || !dataB) {
+    note.textContent = total + ' rows across ' + loadedComps.length + ' file(s) will be processed';
+  } else if (!lookupData) {
     note.textContent = '';
-  } else if (aN === '') {
+  } else if (!loadedComps.length) {
     note.style.color = 'var(--orange)';
-    note.textContent = 'Vyber sloupec s názvy firem v Prospects';
-  } else if (bN === '') {
+    note.textContent = 'Add at least one comparison file';
+  } else if (lkN === '') {
     note.style.color = 'var(--orange)';
-    note.textContent = 'Vyber sloupec s názvy firem v Lookup';
+    note.textContent = 'Select the company name column in the Lookup list';
+  } else {
+    note.style.color = 'var(--orange)';
+    note.textContent = 'Select the company name column for all comparison files';
   }
 }
 
-function onAresToggle() {
-  document.getElementById('aresNote').style.display = document.getElementById('togAres').checked ? 'block' : 'none';
+// ============================================================
+// FILE READING
+// ============================================================
+function readFile(file, callback) {
+  var reader = new FileReader();
+  reader.onerror = function() { showErr('Could not read file.'); };
+  reader.onload = function(e) {
+    try {
+      var wb = XLSX.read(e.target.result, {type:'array'});
+      var ws = wb.Sheets[wb.SheetNames[0]];
+      var raw = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+      if (!raw || raw.length < 2) { showErr('File is empty or has no data rows.'); return; }
+      var headers = raw[0].map(function(h,i){ return h ? String(h).trim() : 'Column '+(i+1); });
+      var rows = raw.slice(1).filter(function(r){ return r.some(function(c){ return String(c).trim(); }); });
+      callback(headers, rows);
+    } catch(ex) {
+      showErr('Error reading file: ' + ex.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function autoDetectCol(selId, headers, pattern) {
+  var sel = document.getElementById(selId);
+  if (!sel) return;
+  headers.forEach(function(h, i) {
+    var hl = String(h).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+    if (pattern.test(hl)) sel.value = i;
+  });
 }
 
 // ============================================================
-// FUZZY ENGINE v4
+// FUZZY ENGINE v4 — preserved exactly
 // ============================================================
 function normalizeName(s) {
   var v = String(s||'');
-  v = v.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-
-  // Collapse spaced single letters: "I N T E C O N" → "intecon"
+  v = v.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
   v = v.replace(/(?<![a-z])([a-z] ){2,}[a-z](?![a-z])/g, function(m){ return m.replace(/ /g,''); });
-
   var lf = ['spol\\.?\\s*s\\.?\\s*r\\.?\\s*o\\.?','s\\.?\\s*r\\.?\\s*o\\.?','a\\.?\\s*s\\.?',
     'v\\.?\\s*o\\.?\\s*s\\.?','k\\.?\\s*s\\.?','z\\.?\\s*s\\.?','o\\.?\\s*p\\.?\\s*s\\.?',
     's\\.?\\s*e\\.?','spol','ltd\\.?','llc\\.?','gmbh\\.?','inc\\.?','corp\\.?','group','holding'];
@@ -606,141 +794,172 @@ function calcSim(a,b){
   var tokSc=tokenSim(na,nb);
   var ca=compactName(a),cb=compactName(b),cMax=Math.max(ca.length,cb.length);
   var cLev=cMax?1-lev(ca,cb)/cMax:0;
-  var sa=sortedName(a),sb=sortedName(b),sMax=Math.max(sa.length,sb.length);
-  var sLev=sMax?1-lev(sa,sb)/sMax:0;
+  var sa=sortedName(a),sb2=sortedName(b),sMax=Math.max(sa.length,sb2.length);
+  var sLev=sMax?1-lev(sa,sb2)/sMax:0;
   return Math.min(1,levSc*0.20+biSc*0.20+tokSc*0.30+cLev*0.15+sLev*0.15);
 }
 
 // ============================================================
-// ARES
+// FUTURE: Registry lookup modules
+// Each registry module implements:
+//   async function registryLookup(name, ico, countryCode)
+//     → { name, ico, active, address }
+// Pluggable registries: CZ ARES, SK ORSR, PL KRS, HU Cégszolgálat
 // ============================================================
-function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
-async function aresById(ico){
-  var ico8=ico.replace(/\s/g,'').padStart(8,'0');
-  try{var r=await fetch('https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/'+ico8);if(!r.ok)return null;var d=await r.json();return{nazev:d.obchodniJmeno||'',ico:d.ico||'',aktivni:!d.datumZaniku,adresa:fmtAdresa(d.sidlo||{})};}catch(e){return null;}
+/*
+async function aresLookup(name, ico, countryCode) {
+  // var ico8 = (ico||'').replace(/\s/g,'').padStart(8,'0');
+  // try {
+  //   var r = await fetch('https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/' + ico8);
+  //   if (!r.ok) return null;
+  //   var d = await r.json();
+  //   return { name: d.obchodniJmeno||'', ico: d.ico||'', active: !d.datumZaniku, address: fmtAdresa(d.sidlo||{}) };
+  // } catch(e) { return null; }
 }
-async function aresByName(name){
-  try{var r=await fetch('https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/vyhledat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({obchodniJmeno:name,pocet:3,start:0})});if(!r.ok)return[];var d=await r.json();return(d.ekonomickeSubjekty||[]).map(function(s){return{nazev:s.obchodniJmeno||'',ico:s.ico||'',aktivni:!s.datumZaniku,adresa:fmtAdresa(s.sidlo||{})};});}catch(e){return[];}
-}
-function fmtAdresa(s){return[s.nazevUlice||s.nazevCastiObce,s.cisloDomovni,s.nazevObce,s.psc].filter(Boolean).join(' ');}
+// function fmtAdresa(s){ return [s.nazevUlice||s.nazevCastiObce,s.cisloDomovni,s.nazevObce,s.psc].filter(Boolean).join(' '); }
+// async function aresByName(name){ ... POST to vyhledat endpoint ... }
+*/
 
 // ============================================================
-// MATCHING – processes both Prospects + Sold-to
+// MATCHING — chunked async, yields every 20 rows via setTimeout
 // ============================================================
 async function runMatch() {
   abortFlag = false;
-  document.getElementById('btnRun').style.display='none';
-  document.getElementById('btnStop').style.display='inline-flex';
-  document.getElementById('panelProg').style.display='block';
-  document.getElementById('panelStats').style.display='none';
-  document.getElementById('panelResults').style.display='none';
+  results = [];
+
+  document.getElementById('btnRun').style.display = 'none';
+  document.getElementById('btnStop').style.display = 'inline-flex';
+  document.getElementById('panelProg').style.display = 'block';
+  document.getElementById('panelStats').style.display = 'none';
+  document.getElementById('panelResults').style.display = 'none';
+  document.getElementById('panelExport').style.display = 'none';
   setStep(3);
 
-  var colAN = parseInt(document.getElementById('selAN').value);
-  var colBN = parseInt(document.getElementById('selBN').value);
-  var colCNval = document.getElementById('selCN').value;
-  var colCN = colCNval !== '' ? parseInt(colCNval) : -1;
-  var colAI = document.getElementById('selAI').value !== '' ? parseInt(document.getElementById('selAI').value) : -1;
-  var colBI = document.getElementById('selBI').value !== '' ? parseInt(document.getElementById('selBI').value) : -1;
-  var colCI = document.getElementById('selCI').value !== '' ? parseInt(document.getElementById('selCI').value) : -1;
-  var useAres = document.getElementById('togAres').checked;
-  var minScore = parseInt(document.getElementById('thrInp').value)/100;
+  var colLkN = parseInt(document.getElementById('selLookupN').value);
+  var colLkI = document.getElementById('selLookupI').value !== '' ? parseInt(document.getElementById('selLookupI').value) : -1;
+  var minScore = parseInt(document.getElementById('thrInp').value) / 100;
   var showTop3 = document.getElementById('togTop3').checked;
 
-  setProgress(2,'Sestavuji index…','', 1);
+  setProgress(2, 'Building index…', '', 1);
+  await yieldBrowser();
 
   // Build lookup index
   var lookup = [];
-  dataB.rows.forEach(function(r,i){
-    var name=String(r[colBN]||'').trim();
-    if(!name)return;
-    var ico=colBI>=0?String(r[colBI]||'').replace(/\D/g,''):'';
-    lookup.push({name:name,ico:ico,origIdx:i});
+  lookupData.rows.forEach(function(r, i) {
+    var name = String(r[colLkN]||'').trim();
+    if (!name) return;
+    var ico = colLkI >= 0 ? String(r[colLkI]||'').replace(/\D/g,'') : '';
+    lookup.push({name:name, ico:ico, origIdx:i});
   });
 
-  // Combine Prospects + Sold-to into one queue with source tag
+  // Flatten all comparison file rows into one queue
   var queue = [];
-  dataA.rows.forEach(function(r,i){ queue.push({row:r,source:'prospects',origIdx:i}); });
-  if (dataC && colCN>=0) {
-    dataC.rows.forEach(function(r,i){ queue.push({row:r,source:'soldto',origIdx:i}); });
-  }
+  compFiles.forEach(function(cf) {
+    if (!cf.rows.length || cf.colName === '') return;
+    var colN = parseInt(cf.colName);
+    var colI = cf.colIco !== '' ? parseInt(cf.colIco) : -1;
+    cf.rows.forEach(function(r, i) {
+      queue.push({row:r, fileId:cf.id, fileName:cf.name, fileColor:cf.color, colN:colN, colI:colI, origIdx:i});
+    });
+  });
 
-  results = [];
+  setProgress(5, 'Starting…', '0 / ' + queue.length, 2);
+  await yieldBrowser();
 
-  for (var i=0; i<queue.length; i++) {
-    if (abortFlag) break;
-    var item = queue[i];
-    var row = item.row;
-    var source = item.source;
-    var colN = source==='prospects' ? colAN : colCN;
-    var colI = source==='prospects' ? colAI : colCI;
+  // Process in batches of 20 — yield between each batch so UI stays responsive
+  var BATCH = 20;
+  for (var i = 0; i < queue.length && !abortFlag; i += BATCH) {
+    var end = Math.min(i + BATCH, queue.length);
 
-    var inputName = String(row[colN]||'').trim();
-    var inputIco  = colI>=0 ? String(row[colI]||'').replace(/\D/g,'') : '';
+    for (var j = i; j < end; j++) {
+      var item = queue[j];
+      var inputName = String(item.row[item.colN]||'').trim();
+      var inputIco  = item.colI >= 0 ? String(item.row[item.colI]||'').replace(/\D/g,'') : '';
 
-    setProgress(Math.round(i/queue.length*100), 'Zpracovávám: '+inputName.slice(0,35)+'…', (i+1)+' / '+queue.length, 2);
+      if (!inputName) {
+        results.push({
+          rowIdx:item.origIdx+2, fileId:item.fileId, fileName:item.fileName, fileColor:item.fileColor,
+          inputName:'', inputIco:inputIco, origRow:item.row,
+          match:null, score:0, method:'',
+          /* FUTURE: registryData:null, */
+          top3:[]
+        });
+        continue;
+      }
 
-    if (!inputName) {
-      results.push({rowIdx:item.origIdx+2,source:source,inputName:'',inputIco:inputIco,origRow:row,match:null,score:0,method:'',aresData:null,top3:[]});
-      continue;
+      var candidates = lookup.map(function(l) {
+        var sc = calcSim(inputName, l.name);
+        var method = 'fuzzy';
+        if (inputIco && l.ico && inputIco.length >= 6 && (inputIco === l.ico || inputIco === l.ico.padStart(8,'0'))) {
+          sc = Math.max(sc, 0.97); method = 'ID';
+        }
+        return {name:l.name, ico:l.ico, score:sc, method:method, origIdx:l.origIdx};
+      });
+      candidates.sort(function(a,b){ return b.score - a.score; });
+
+      var best = candidates.length ? candidates[0] : null;
+      var top3 = showTop3 ? candidates.slice(0, 3) : [];
+
+      /* FUTURE: registry lookup
+      var registryData = null;
+      if (useRegistry) {
+        registryData = await registryLookup(inputName, inputIco, 'CZ');
+      }
+      */
+
+      results.push({
+        rowIdx: item.origIdx + 2,
+        fileId: item.fileId, fileName: item.fileName, fileColor: item.fileColor,
+        inputName: inputName, inputIco: inputIco, origRow: item.row,
+        match: (best && best.score >= minScore) ? best : null,
+        score: best ? best.score : 0,
+        method: best ? best.method : '',
+        /* FUTURE: registryData: null, */
+        top3: top3.filter(function(c){ return c.score >= 0.2; })
+      });
     }
 
-    var candidates = lookup.map(function(l){
-      var sc=calcSim(inputName,l.name);
-      var method='fuzzy';
-      if(inputIco&&l.ico&&inputIco.length>=6&&(inputIco===l.ico||inputIco===l.ico.padStart(8,'0'))){sc=Math.max(sc,0.97);method='IČO';}
-      return{name:l.name,ico:l.ico,score:sc,method:method,origIdx:l.origIdx};
-    });
-    candidates.sort(function(a,b){return b.score-a.score;});
-
-    var best=candidates.length>0?candidates[0]:null;
-    var top3=showTop3?candidates.slice(0,3):[];
-
-    var aresData=null;
-    if(useAres){
-      setProgress(Math.round(i/queue.length*100),'ARES: '+inputName.slice(0,30)+'…',(i+1)+' / '+queue.length, 3);
-      var tryIco=inputIco||(best?best.ico:'');
-      if(tryIco&&tryIco.length>=6)aresData=await aresById(tryIco);
-      if(!aresData){var found=await aresByName(inputName);if(found.length>0)aresData=found[0];}
-      await sleep(180);
-    }
-
-    results.push({
-      rowIdx:item.origIdx+2, source:source,
-      inputName:inputName, inputIco:inputIco, origRow:row,
-      match:(best&&best.score>=minScore)?best:null,
-      score:best?best.score:0, method:best?best.method:'',
-      aresData:aresData,
-      top3:top3.filter(function(c){return c.score>=0.2;})
-    });
+    var pct = Math.round(end / queue.length * 100);
+    var curName = (queue[end-1] ? String(queue[end-1].row[queue[end-1].colN]||'').trim() : '').slice(0, 38);
+    setProgress(Math.max(5, pct), 'Processing: ' + curName, end + ' / ' + queue.length, 2);
+    await yieldBrowser(); // release main thread between batches
   }
 
-  setProgress(100,'Hotovo!','', 4);
-  setTimeout(function(){document.getElementById('panelProg').style.display='none';},800);
-  document.getElementById('btnRun').style.display='inline-flex';
-  document.getElementById('btnStop').style.display='none';
+  setProgress(100, 'Done!', queue.length + ' rows processed', 3);
+  await yieldBrowser();
+
+  setTimeout(function() { document.getElementById('panelProg').style.display = 'none'; }, 700);
+  document.getElementById('btnRun').style.display = 'inline-flex';
+  document.getElementById('btnStop').style.display = 'none';
 
   updateStats();
+  buildExportConfig();
+  updateSrcFilter();
   renderTable();
-  document.getElementById('panelStats').style.display='grid';
-  document.getElementById('panelResults').style.display='block';
+
+  document.getElementById('panelStats').style.display = 'grid';
+  document.getElementById('panelExport').style.display = 'block';
+  document.getElementById('panelResults').style.display = 'block';
   setStep(4);
 }
 
-function doStop(){ abortFlag=true; }
+function yieldBrowser() {
+  return new Promise(function(r){ setTimeout(r, 0); });
+}
+function doStop() { abortFlag = true; }
 
-function setProgress(pct,lbl,phase,phaseIdx){
-  document.getElementById('progFill').style.width=pct+'%';
-  document.getElementById('progPct').textContent=pct+'%';
-  document.getElementById('progLbl').textContent=lbl;
-  document.getElementById('progPhase').textContent=phase;
-  if(phaseIdx){
-    for(var i=1;i<=4;i++){
-      var el=document.getElementById('ph'+i);
-      if(!el)continue;
+function setProgress(pct, lbl, phase, phaseIdx) {
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progLbl').textContent = lbl;
+  document.getElementById('progPhase').textContent = phase;
+  if (phaseIdx) {
+    for (var i = 1; i <= 3; i++) {
+      var el = document.getElementById('ph'+i);
+      if (!el) continue;
       el.classList.remove('active','done');
-      if(i<phaseIdx)el.classList.add('done');
-      else if(i===phaseIdx)el.classList.add('active');
+      if (i < phaseIdx) el.classList.add('done');
+      else if (i === phaseIdx) el.classList.add('active');
     }
   }
 }
@@ -748,334 +967,329 @@ function setProgress(pct,lbl,phase,phaseIdx){
 // ============================================================
 // STATS
 // ============================================================
-function updateStats(){
-  var total=results.length;
-  var prospects=results.filter(function(r){return r.source==='prospects';}).length;
-  var soldto=results.filter(function(r){return r.source==='soldto';}).length;
-  var matched=results.filter(function(r){return r.match;}).length;
-  var strong=results.filter(function(r){return r.score>=0.75;}).length;
-  var med=results.filter(function(r){return r.match&&r.score>=0.5&&r.score<0.75;}).length;
-  var none=results.filter(function(r){return !r.match;}).length;
-  var weak=matched-strong-med;
-  document.getElementById('stTotal').textContent=total;
-  document.getElementById('stProspects').textContent=prospects;
-  document.getElementById('stSoldTo').textContent=soldto;
-  document.getElementById('stMatched').textContent=matched;
-  document.getElementById('stStrong').textContent=strong;
-  document.getElementById('stNone').textContent=none;
-  document.getElementById('fAll').textContent='Vše ('+total+')';
-  document.getElementById('fStrong').textContent='Silná ≥75% ('+strong+')';
-  document.getElementById('fMed').textContent='Střední 50–74% ('+med+')';
-  document.getElementById('fWeak').textContent='Slabá <50% ('+weak+')';
-  document.getElementById('fNone').textContent='⚠ Nespárováno ('+none+')';
+function updateStats() {
+  var total   = results.length;
+  var matched = results.filter(function(r){ return r.match; }).length;
+  var strong  = results.filter(function(r){ return r.score >= 0.75; }).length;
+  var med     = results.filter(function(r){ return r.match && r.score >= 0.5 && r.score < 0.75; }).length;
+  var weak    = results.filter(function(r){ return r.match && r.score < 0.5; }).length;
+  var none    = results.filter(function(r){ return !r.match; }).length;
+  document.getElementById('stTotal').textContent   = total;
+  document.getElementById('stMatched').textContent = matched;
+  document.getElementById('stStrong').textContent  = strong;
+  document.getElementById('stMed').textContent     = med;
+  document.getElementById('stWeak').textContent    = weak;
+  document.getElementById('stNone').textContent    = none;
+  document.getElementById('fAll').textContent    = 'All (' + total + ')';
+  document.getElementById('fStrong').textContent = 'Strong ≥75% (' + strong + ')';
+  document.getElementById('fMed').textContent    = 'Medium 50–74% (' + med + ')';
+  document.getElementById('fWeak').textContent   = 'Weak <50% (' + weak + ')';
+  document.getElementById('fNone').textContent   = 'No match (' + none + ')';
+}
+
+// ============================================================
+// SOURCE FILTER
+// ============================================================
+function updateSrcFilter() {
+  var sel = document.getElementById('srcSel');
+  var html = '<option value="all">All sources</option>';
+  compFiles.forEach(function(cf) {
+    if (cf.rows.length > 0) html += '<option value="f'+cf.id+'">'+esc(cf.name)+'</option>';
+  });
+  sel.innerHTML = html;
 }
 
 // ============================================================
 // TABLE
 // ============================================================
-var currentSort = {col: null, dir: 1};
+var currentSort = {col:null, dir:1};
 
 function sortBy(col) {
-  if (currentSort.col === col) {
-    currentSort.dir *= -1;
-  } else {
-    currentSort.col = col;
-    currentSort.dir = 1;
-  }
-  // Update header classes
-  document.querySelectorAll('th.sortable').forEach(function(th) {
-    th.classList.remove('sort-asc','sort-desc');
-  });
-  var idx = {source:1,name:2,match:3,score:4};
-  var ths = document.querySelectorAll('th.sortable');
+  if (currentSort.col === col) currentSort.dir *= -1;
+  else { currentSort.col = col; currentSort.dir = 1; }
+  document.querySelectorAll('th.sortable').forEach(function(th){ th.classList.remove('sort-asc','sort-desc'); });
   var cols = ['source','name','match','score'];
-  var i = cols.indexOf(col);
-  if (i>=0 && ths[i]) ths[i].classList.add(currentSort.dir===1?'sort-asc':'sort-desc');
+  var ths  = document.querySelectorAll('th.sortable');
+  var idx  = cols.indexOf(col);
+  if (idx >= 0 && ths[idx]) ths[idx].classList.add(currentSort.dir === 1 ? 'sort-asc' : 'sort-desc');
   renderTable();
 }
 
-function renderTable(){
-  var src=document.getElementById('srcSel').value;
-  var filter=document.getElementById('filSel').value;
-  var sort=document.getElementById('srtSel').value;
-  var data=results.slice();
+function renderTable() {
+  var src    = document.getElementById('srcSel').value;
+  var filter = document.getElementById('filSel').value;
+  var sort   = document.getElementById('srtSel').value;
+  var data   = results.slice();
 
-  if(src==='prospects') data=data.filter(function(r){return r.source==='prospects';});
-  else if(src==='soldto') data=data.filter(function(r){return r.source==='soldto';});
+  if (src !== 'all') data = data.filter(function(r){ return 'f'+r.fileId === src; });
+  if (filter === 'strong') data = data.filter(function(r){ return r.score >= 0.75; });
+  else if (filter === 'med')  data = data.filter(function(r){ return r.match && r.score >= 0.5 && r.score < 0.75; });
+  else if (filter === 'weak') data = data.filter(function(r){ return r.match && r.score < 0.5; });
+  else if (filter === 'none') data = data.filter(function(r){ return !r.match; });
 
-  if(filter==='strong') data=data.filter(function(r){return r.score>=0.75;});
-  else if(filter==='med') data=data.filter(function(r){return r.match&&r.score>=0.5&&r.score<0.75;});
-  else if(filter==='weak') data=data.filter(function(r){return r.match&&r.score<0.5;});
-  else if(filter==='none') data=data.filter(function(r){return !r.match;});
+  if (sort === 'score') data.sort(function(a,b){ return b.score - a.score; });
 
-  if(sort==='score') data.sort(function(a,b){return b.score-a.score;});
-
-  // Column header sort
   if (currentSort.col) {
     var d = currentSort.dir;
     data.sort(function(a,b) {
-      var av, bv;
-      if (currentSort.col==='source')   { av=a.source||''; bv=b.source||''; }
-      else if (currentSort.col==='name'){ av=a.inputName||''; bv=b.inputName||''; }
-      else if (currentSort.col==='match'){ av=a.match?a.match.name:''; bv=b.match?b.match.name:''; }
-      else if (currentSort.col==='score'){ return (b.score-a.score)*d; }
-      else { av=''; bv=''; }
-      return av.localeCompare(bv, 'cs') * d;
+      if (currentSort.col === 'source') return (a.fileName||'').localeCompare(b.fileName||'') * d;
+      if (currentSort.col === 'name')   return (a.inputName||'').localeCompare(b.inputName||'') * d;
+      if (currentSort.col === 'match')  return ((a.match?a.match.name:'')).localeCompare(b.match?b.match.name:'') * d;
+      if (currentSort.col === 'score')  return (b.score - a.score) * d;
+      return 0;
     });
   }
 
-  document.getElementById('dispN').textContent=data.length;
-  document.getElementById('totN').textContent=results.length;
+  document.getElementById('dispN').textContent = data.length;
+  document.getElementById('totN').textContent  = results.length;
 
-  var html='';
-  data.forEach(function(r){
-    var sc=r.score;
-    var col=sc>=0.75?'#16a34a':sc>=0.5?'#d97706':sc>=0.25?'#ea580c':'#dc2626';
-    var scoreHtml=r.match
-      ?'<span class="pill" style="background:'+col+'18;color:'+col+';border:1px solid '+col+'30">'+Math.round(sc*100)+'%</span>'
-      :'<span style="color:var(--text3)">—</span>';
-    var aresHtml=!r.aresData?'<span class="atag a-skip">—</span>':r.aresData.aktivni?'<span class="atag a-ok">✓ aktivní</span>':'<span class="atag a-no">✗ zaniklá</span>';
-    var top3html='<span style="color:var(--text3);font-size:.6rem;">—</span>';
-    if(r.top3.length>1) top3html='<div class="top3txt">'+r.top3.slice(1).map(function(c){return Math.round(c.score*100)+'% '+esc(c.name);}).join('<br>')+'</div>';
-    var rowBg=!r.match?' style="background:#fef9f9;"':'';
-    var srcBadge=r.source==='prospects'
-      ?'<span class="src-p">📋 Prospects</span>'
-      :'<span class="src-s">💼 Sold-to</span>';
-    var matchCell=r.match?esc(r.match.name):'<span style="color:var(--red);font-size:.72rem;font-weight:500;">✕ Nenalezeno</span>';
-    html+='<tr'+rowBg+'>'
-      +'<td style="color:var(--text3);white-space:nowrap">'+r.rowIdx+'</td>'
-      +'<td>'+srcBadge+'</td>'
-      +'<td class="nc" title="'+esc(r.inputName)+'">'+(r.inputName?esc(r.inputName):'<span style="color:var(--text3)">prázdné</span>')+'</td>'
-      +'<td class="mc" title="'+(r.match?esc(r.match.name):'')+'">'+matchCell+'</td>'
-      +'<td>'+scoreHtml+'</td>'
-      +'<td><span class="mtag">'+(r.method||'—')+'</span></td>'
-      +'<td>'+aresHtml+'</td>'
-      +'<td>'+top3html+'</td>'
-      +'</tr>';
+  var html = '';
+  data.forEach(function(r) {
+    var sc  = r.score;
+    var col = sc>=0.75?'#16a34a':sc>=0.5?'#d97706':sc>=0.25?'#ea580c':'#dc2626';
+    var scoreHtml = r.match
+      ? '<span class="pill" style="background:'+col+'18;color:'+col+';border:1px solid '+col+'30">'+Math.round(sc*100)+'%</span>'
+      : '<span style="color:var(--text3)">—</span>';
+    var top3html = '<span style="color:var(--text3);font-size:.6rem;">—</span>';
+    if (r.top3 && r.top3.length > 1)
+      top3html = '<div class="top3txt">'+r.top3.slice(1).map(function(c){ return Math.round(c.score*100)+'% '+esc(c.name); }).join('<br>')+'</div>';
+    var c = r.fileColor;
+    var srcBadge = '<span class="src-badge" style="background:'+c.bg+';color:'+c.text+';border:1px solid '+c.light+'">'+esc(r.fileName)+'</span>';
+    var matchCell = r.match ? esc(r.match.name) : '<span style="color:var(--red);font-size:.72rem;font-weight:500;">✕ Not found</span>';
+    var rowBg = !r.match ? ' style="background:#fef9f9;"' : '';
+    html += '<tr'+rowBg+'>'
+      + '<td style="color:var(--text3);white-space:nowrap">'+r.rowIdx+'</td>'
+      + '<td>'+srcBadge+'</td>'
+      + '<td class="nc" title="'+esc(r.inputName)+'">'+(r.inputName ? esc(r.inputName) : '<span style="color:var(--text3)">empty</span>')+'</td>'
+      + '<td class="mc" title="'+(r.match?esc(r.match.name):'')+'">'+matchCell+'</td>'
+      + '<td>'+scoreHtml+'</td>'
+      + '<td><span class="mtag">'+(r.method||'—')+'</span></td>'
+      + '<td>'+top3html+'</td>'
+      + '</tr>';
   });
-  document.getElementById('tbody').innerHTML=html;
+  document.getElementById('tbody').innerHTML = html;
 }
 
 // ============================================================
-// EXPORT EXCEL
+// EXPORT CONFIG
 // ============================================================
-function colToLetter(n){var s='';while(n>=0){s=String.fromCharCode(65+(n%26))+s;n=Math.floor(n/26)-1;}return s;}
-
-function doExportExcel(){
-  var wb=XLSX.utils.book_new();
-  var headersB=dataB.headers;
-  var colBN=parseInt(document.getElementById('selBN').value);
-
-  // Build map: lookup row index → best matching result (using exact origIdx)
-  var lookupMatchMap={};
-  results.forEach(function(r){
-    if(!r.match)return;
-    var idx=r.match.origIdx;
-    if(idx!==undefined&&lookupMatchMap[idx]===undefined){
-      lookupMatchMap[idx]=r;
-    }
+function buildExportConfig() {
+  exportConfig = [];
+  var order = 0;
+  compFiles.forEach(function(cf) {
+    if (!cf.rows.length) return;
+    cf.headers.forEach(function(h, i) {
+      exportConfig.push({
+        id: 'f'+cf.id+'_c'+i,
+        label: h, fileId: cf.id, fileName: cf.name, fileColor: cf.color,
+        colIdx: i, include: true, order: order++
+      });
+    });
   });
+  renderExportConfig();
+}
 
-  // Sheet 1: Lookup + matched info
-  var lookupRows=dataB.rows.map(function(row,idx){
-    var obj={};
-    headersB.forEach(function(h,i){obj[h]=row[i]!=null?row[i]:'';});
-    var m=lookupMatchMap[idx];
-    if(m){
-      obj['Nalezeno']='ANO';
-      obj['Zdroj']=m.source==='prospects'?'Prospects':'Sold-to';
-      obj['Název v souboru']=m.inputName;
-      obj['Shoda %']=Math.round(m.score*100);
-      obj['Metoda']=m.method||'';
-    } else {
-      obj['Nalezeno']='NE';
-      obj['Zdroj']='';
-      obj['Název v souboru']='';
-      obj['Shoda %']='';
-      obj['Metoda']='';
+function renderExportConfig() {
+  var list = document.getElementById('exportColList');
+  if (!list) return;
+  var sorted = exportConfig.slice().sort(function(a,b){ return a.order-b.order; });
+  var html = '';
+  var lastFileId = null;
+  sorted.forEach(function(col) {
+    if (col.fileId !== lastFileId) {
+      lastFileId = col.fileId;
+      var c = col.fileColor;
+      html += '<div class="export-group-hdr" style="background:'+c.bg+';color:'+c.text+'">'
+        + '<span style="width:8px;height:8px;border-radius:50%;background:'+c.border+';display:inline-block;flex-shrink:0"></span>'
+        + esc(col.fileName)+'</div>';
     }
+    html += '<div class="export-col-item" id="ecol_'+col.id+'">'
+      + '<input type="checkbox" class="export-col-check" id="echk_'+col.id+'" '+(col.include?'checked':'')
+      +  ' onchange="toggleExportCol(\''+col.id+'\')">'
+      + '<label class="export-col-label" for="echk_'+col.id+'">'+esc(col.label)+'</label>'
+      + '<span class="export-col-src" style="background:'+col.fileColor.bg+';color:'+col.fileColor.text+';border:1px solid '+col.fileColor.light+'">'+esc(col.fileName)+'</span>'
+      + '<div class="export-arrows">'
+      + '<button onclick="moveExportCol(\''+col.id+'\',-1)" title="Move up">↑</button>'
+      + '<button onclick="moveExportCol(\''+col.id+'\',1)" title="Move down">↓</button>'
+      + '</div></div>';
+  });
+  list.innerHTML = html;
+}
+
+function toggleExportCol(id) {
+  var col = exportConfig.find(function(c){ return c.id===id; });
+  if (col) col.include = document.getElementById('echk_'+id).checked;
+}
+
+function moveExportCol(id, dir) {
+  var sorted = exportConfig.slice().sort(function(a,b){ return a.order-b.order; });
+  var idx = -1;
+  sorted.forEach(function(c,i){ if(c.id===id) idx=i; });
+  var swapIdx = idx + dir;
+  if (idx < 0 || swapIdx < 0 || swapIdx >= sorted.length) return;
+  var tmp = sorted[idx].order;
+  sorted[idx].order = sorted[swapIdx].order;
+  sorted[swapIdx].order = tmp;
+  renderExportConfig();
+}
+
+// ============================================================
+// EXCEL EXPORT
+// ============================================================
+function doExportExcel() {
+  if (!results.length) return;
+  var wb = XLSX.utils.book_new();
+  var cols = exportConfig.filter(function(c){ return c.include; }).sort(function(a,b){ return a.order-b.order; });
+
+  function buildRow(r) {
+    var obj = {};
+    obj['Match Name']       = r.match ? r.match.name : '';
+    obj['Score %']          = r.match ? Math.round(r.score*100) : '';
+    obj['Method']           = r.method || '';
+    obj['Registry Status']  = ''; // FUTURE: r.registryData ? (r.registryData.active?'Active':'Inactive') : ''
+    obj['Source File']      = r.fileName;
+    obj['Input Name']       = r.inputName;
+    cols.forEach(function(col) {
+      var key = col.fileName + ' · ' + col.label;
+      obj[key] = (col.fileId === r.fileId && r.origRow[col.colIdx] != null) ? r.origRow[col.colIdx] : '';
+    });
     return obj;
-  });
-  var ws=XLSX.utils.json_to_sheet(lookupRows);
-  ws['!cols']=[].concat(headersB.map(function(){return{wch:25};}),
-    [{wch:10},{wch:12},{wch:35},{wch:10},{wch:12}]);
-  XLSX.utils.book_append_sheet(wb,ws,'Lookup + shody');
-
-  // Sheet 2: Not found in any source
-  var notFound=dataB.rows.filter(function(_,idx){return !lookupMatchMap[idx];});
-  if(notFound.length){
-    var wsNF=XLSX.utils.json_to_sheet(notFound.map(function(row){
-      var obj={};headersB.forEach(function(h,i){obj[h]=row[i]!=null?row[i]:'';});return obj;
-    }));
-    wsNF['!cols']=headersB.map(function(){return{wch:25};});
-    XLSX.utils.book_append_sheet(wb,wsNF,'Nenalezeno');
   }
 
-  // Sheet 3: Prospects without match
-  var unmP=results.filter(function(r){return r.source==='prospects'&&!r.match;});
-  if(unmP.length){
-    var wsP=XLSX.utils.json_to_sheet(unmP.map(function(r){
-      var obj={};dataA.headers.forEach(function(h,i){obj[h]=r.origRow[i]!=null?r.origRow[i]:'';});return obj;
-    }));
-    wsP['!cols']=dataA.headers.map(function(){return{wch:25};});
-    XLSX.utils.book_append_sheet(wb,wsP,'Prospects bez shody');
+  var allRows = results.map(buildRow);
+  var ws = XLSX.utils.json_to_sheet(allRows);
+  ws['!cols'] = Object.keys(allRows[0]).map(function(){ return {wch:25}; });
+  XLSX.utils.book_append_sheet(wb, ws, 'All Results');
+
+  var matched = results.filter(function(r){ return r.match; });
+  if (matched.length) {
+    var wsM = XLSX.utils.json_to_sheet(matched.map(buildRow));
+    wsM['!cols'] = Object.keys(allRows[0]).map(function(){ return {wch:25}; });
+    XLSX.utils.book_append_sheet(wb, wsM, 'Matched');
   }
 
-  // Sheet 4: Sold-to without match
-  if(dataC){
-    var unmC=results.filter(function(r){return r.source==='soldto'&&!r.match;});
-    if(unmC.length){
-      var wsC=XLSX.utils.json_to_sheet(unmC.map(function(r){
-        var obj={};dataC.headers.forEach(function(h,i){obj[h]=r.origRow[i]!=null?r.origRow[i]:'';});return obj;
-      }));
-      wsC['!cols']=dataC.headers.map(function(){return{wch:25};});
-      XLSX.utils.book_append_sheet(wb,wsC,'Sold-to bez shody');
-    }
+  var unmatched = results.filter(function(r){ return !r.match; });
+  if (unmatched.length) {
+    var wsU = XLSX.utils.json_to_sheet(unmatched.map(buildRow));
+    wsU['!cols'] = Object.keys(allRows[0]).map(function(){ return {wch:25}; });
+    XLSX.utils.book_append_sheet(wb, wsU, 'No Match');
   }
 
-  XLSX.writeFile(wb,'lookup-s-shodami.xlsx');
+  XLSX.writeFile(wb, 'company-matcher-results.xlsx');
 }
 
 // ============================================================
 // CSV EXPORT
 // ============================================================
-function doExportCSV(){
-  var lines=['"Řádek","Zdroj","Název firmy","Shoda Lookup","Skóre %","Metoda","ARES status"'];
-  results.forEach(function(r){
-    var q=function(s){return'"'+String(s||'').replace(/"/g,'""')+'"';};
-    var aresStatus=r.aresData?(r.aresData.aktivni?'aktivní':'zaniklá'):'';
-    lines.push([r.rowIdx,q(r.source==='prospects'?'Prospects':'Sold-to'),q(r.inputName),
-      q(r.match?r.match.name:''),r.match?Math.round(r.score*100):'',r.method||'',q(aresStatus)].join(','));
+function doExportCSV() {
+  var cols = exportConfig.filter(function(c){ return c.include; }).sort(function(a,b){ return a.order-b.order; });
+  var q = function(s){ return '"'+String(s||'').replace(/"/g,'""')+'"'; };
+  var fixedHdrs = ['Row #','Source File','Input Name','Match Name','Score %','Method','Registry Status'];
+  var hdrs = fixedHdrs.concat(cols.map(function(c){ return c.fileName+' · '+c.label; }));
+  var lines = [hdrs.map(q).join(',')];
+  results.forEach(function(r) {
+    var row = [r.rowIdx, q(r.fileName), q(r.inputName),
+      q(r.match?r.match.name:''), r.match?Math.round(r.score*100):'', q(r.method||''), q('')];
+    cols.forEach(function(col) {
+      row.push(q(col.fileId===r.fileId && r.origRow[col.colIdx]!=null ? r.origRow[col.colIdx] : ''));
+    });
+    lines.push(row.join(','));
   });
-  var b=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
-  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='company-matcher.csv';a.click();
+  var b = new Blob(['﻿'+lines.join('\r\n')], {type:'text/csv;charset=utf-8'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'company-matcher.csv'; a.click();
 }
 
 // ============================================================
-// QUICK SEARCH – prohledá Prospects i Sold-to, zobrazí shodu v Lookup
+// QUICK SEARCH
 // ============================================================
-var qsTimer=null;
-function quickSearch(){
-  var q=document.getElementById('qsInput').value.trim();
-  document.getElementById('qsClear').style.display=q?'inline-flex':'none';
+var qsTimer = null;
+function quickSearch() {
+  var q = document.getElementById('qsInput').value.trim();
+  document.getElementById('qsClear').style.display = q ? 'inline-flex' : 'none';
   clearTimeout(qsTimer);
-  if(!q){document.getElementById('qsResults').innerHTML='';document.getElementById('qsMeta').textContent='';return;}
-  qsTimer=setTimeout(function(){doQS(q);},150);
+  if (!q) { document.getElementById('qsResults').innerHTML=''; document.getElementById('qsMeta').textContent=''; return; }
+  qsTimer = setTimeout(function(){ doQS(q); }, 150);
 }
 
-function doQS(q){
-  if(!dataA){
-    document.getElementById('qsResults').innerHTML='<div class="qs-empty">Nejprve nahraj soubor Prospects</div>';
-    return;
-  }
-  var colAN=document.getElementById('selAN').value;
-  if(colAN===''){
-    document.getElementById('qsResults').innerHTML='<div class="qs-empty">Vyber sloupec s názvy firem v Prospects</div>';
+function doQS(q) {
+  var loadedComps = compFiles.filter(function(f){ return f.rows.length>0 && f.colName!==''; });
+  if (!loadedComps.length) {
+    document.getElementById('qsResults').innerHTML = '<div class="qs-empty">Load at least one comparison file first</div>';
     return;
   }
 
-  var colANi=parseInt(colAN);
-  var colAIi=document.getElementById('selAI').value!==''?parseInt(document.getElementById('selAI').value):-1;
-  var colCNval=document.getElementById('selCN').value;
-  var colCNi=colCNval!==''?parseInt(colCNval):-1;
-  var colCIi=document.getElementById('selCI').value!==''?parseInt(document.getElementById('selCI').value):-1;
-  var colBNi=document.getElementById('selBN').value!==''?parseInt(document.getElementById('selBN').value):-1;
-
-  // Build lookup index for fast match display
-  var lookupArr=[];
-  if(dataB&&colBNi>=0){
-    dataB.rows.forEach(function(row){
-      var n=String(row[colBNi]||'').trim();
-      if(n)lookupArr.push(n);
-    });
+  var lkNi = document.getElementById('selLookupN').value !== '' ? parseInt(document.getElementById('selLookupN').value) : -1;
+  var lookupArr = [];
+  if (lookupData && lkNi >= 0) {
+    lookupData.rows.forEach(function(r){ var n=String(r[lkNi]||'').trim(); if(n) lookupArr.push(n); });
+  }
+  function bestLk(name) {
+    var best=null, bestSc=0;
+    lookupArr.forEach(function(ln){ var sc=calcSim(name,ln); if(sc>bestSc){bestSc=sc;best=ln;} });
+    return bestSc>=0.35 ? {name:best,score:bestSc} : null;
   }
 
-  function bestLookupMatch(name){
-    if(!lookupArr.length)return null;
-    var best=null,bestSc=0;
-    lookupArr.forEach(function(ln){
-      var sc=calcSim(name,ln);
-      if(sc>bestSc){bestSc=sc;best=ln;}
+  var candidates = [];
+  var total = 0;
+  loadedComps.forEach(function(cf) {
+    var colN = parseInt(cf.colName);
+    var colI = cf.colIco !== '' ? parseInt(cf.colIco) : -1;
+    cf.rows.forEach(function(r) {
+      var name = String(r[colN]||'').trim();
+      if (!name) return;
+      var ico = colI>=0 ? String(r[colI]||'').replace(/\D/g,'') : '';
+      candidates.push({name:name,ico:ico,fileId:cf.id,fileName:cf.name,fileColor:cf.color,score:calcSim(q,name)});
+      total++;
     });
-    return bestSc>=0.35?{name:best,score:bestSc}:null;
-  }
-
-  // Collect candidates from Prospects
-  var candidates=[];
-  dataA.rows.forEach(function(row){
-    var name=String(row[colANi]||'').trim();
-    if(!name)return;
-    var ico=colAIi>=0?String(row[colAIi]||'').replace(/\D/g,''):'';
-    candidates.push({name:name,ico:ico,source:'prospects',score:calcSim(q,name)});
   });
+  candidates.sort(function(a,b){ return b.score-a.score; });
+  var top = candidates.slice(0,10).filter(function(r){ return r.score>=0.1; });
+  document.getElementById('qsMeta').textContent = total + ' companies searched';
 
-  // Collect candidates from Sold-to
-  if(dataC&&colCNi>=0){
-    dataC.rows.forEach(function(row){
-      var name=String(row[colCNi]||'').trim();
-      if(!name)return;
-      var ico=colCIi>=0?String(row[colCIi]||'').replace(/\D/g,''):'';
-      candidates.push({name:name,ico:ico,source:'soldto',score:calcSim(q,name)});
-    });
-  }
-
-  candidates.sort(function(a,b){return b.score-a.score;});
-  var top=candidates.slice(0,10).filter(function(r){return r.score>=0.1;});
-
-  var totalSearched=dataA.rows.length+(dataC&&colCNi>=0?dataC.rows.length:0);
-  document.getElementById('qsMeta').textContent=totalSearched+' firem prohledáno';
-
-  if(!top.length){
-    document.getElementById('qsResults').innerHTML='<div class="qs-empty">Žádná shoda nenalezena</div>';
+  if (!top.length) {
+    document.getElementById('qsResults').innerHTML = '<div class="qs-empty">No match found</div>';
     return;
   }
 
-  var html='<div class="qs-results">';
-  top.forEach(function(r,i){
-    var scoreCol=r.score>=0.75?'#16a34a':r.score>=0.5?'#d97706':r.score>=0.25?'#ea580c':'#dc2626';
-    var pct=Math.round(r.score*100);
-    var srcBadge=r.source==='prospects'
-      ?'<span class="qs-src-p">📋 Prospects</span>'
-      :'<span class="qs-src-s">💼 Sold-to</span>';
-    var lm=bestLookupMatch(r.name);
-    var lookupHtml=lm
-      ?'<div class="qs-match">⟶ Lookup: '+esc(lm.name)+' <span style="color:var(--text3)">('+Math.round(lm.score*100)+'%)</span></div>'
-      :(dataB?'<div class="qs-nomatch">⟶ Lookup: nenalezeno</div>':'');
-    html+='<div class="qs-row">'
-      +'<div class="qs-rank">#'+(i+1)+'</div>'
-      +'<div style="flex:1;min-width:0;overflow:hidden">'
-        +'<div style="display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">'
-          +srcBadge
-          +'<span class="qs-name">'+esc(r.name)+(r.ico?'<span style="color:var(--text3);font-size:.65rem;margin-left:.35rem">IČO: '+esc(r.ico)+'</span>':'')+'</span>'
-        +'</div>'
-        +lookupHtml
-      +'</div>'
-      +'<div class="qs-score">'
-        +'<div class="qs-pct" style="color:'+scoreCol+'">'+pct+'%</div>'
-        +'<div class="qs-bar-wrap"><div class="qs-bar" style="width:'+pct+'%;background:'+scoreCol+'"></div></div>'
-      +'</div>'
-      +'</div>';
+  var html = '<div class="qs-results">';
+  top.forEach(function(r, i) {
+    var scoreCol = r.score>=0.75?'#16a34a':r.score>=0.5?'#d97706':r.score>=0.25?'#ea580c':'#dc2626';
+    var pct = Math.round(r.score*100);
+    var c = r.fileColor;
+    var srcBadge = '<span class="src-badge" style="background:'+c.bg+';color:'+c.text+';border:1px solid '+c.light+'">'+esc(r.fileName)+'</span>';
+    var lm = bestLk(r.name);
+    var lkHtml = lm
+      ? '<div class="qs-match">⟶ Lookup: '+esc(lm.name)+' <span style="color:var(--text3)">('+Math.round(lm.score*100)+'%)</span></div>'
+      : (lookupData ? '<div class="qs-nomatch">⟶ Lookup: not found</div>' : '');
+    html += '<div class="qs-row">'
+      + '<div class="qs-rank">#'+(i+1)+'</div>'
+      + '<div style="flex:1;min-width:0;overflow:hidden">'
+        + '<div style="display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">'+srcBadge
+          + '<span class="qs-name">'+esc(r.name)+(r.ico?'<span style="color:var(--text3);font-size:.65rem;margin-left:.35rem">ID: '+esc(r.ico)+'</span>':'')+'</span>'
+        + '</div>'+lkHtml
+      + '</div>'
+      + '<div class="qs-score"><div class="qs-pct" style="color:'+scoreCol+'">'+pct+'%</div>'
+        + '<div class="qs-bar-wrap"><div class="qs-bar" style="width:'+pct+'%;background:'+scoreCol+'"></div></div>'
+      + '</div></div>';
   });
-  html+='</div>';
-  document.getElementById('qsResults').innerHTML=html;
+  document.getElementById('qsResults').innerHTML = html + '</div>';
 }
 
-function clearQS(){
-  document.getElementById('qsInput').value='';
-  document.getElementById('qsClear').style.display='none';
-  document.getElementById('qsResults').innerHTML='';
-  document.getElementById('qsMeta').textContent='';
+function clearQS() {
+  document.getElementById('qsInput').value = '';
+  document.getElementById('qsClear').style.display = 'none';
+  document.getElementById('qsResults').innerHTML = '';
+  document.getElementById('qsMeta').textContent = '';
   document.getElementById('qsInput').focus();
 }
 
 // ============================================================
 // HELPERS
 // ============================================================
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function setStep(n){for(var i=1;i<=4;i++){var el=document.getElementById('s'+i);el.classList.remove('active','done');if(i<n)el.classList.add('done');else if(i===n)el.classList.add('active');}}
-function showErr(msg){var el=document.getElementById('errMsg');el.textContent=msg;el.style.display='block';}
-function hideErr(){document.getElementById('errMsg').style.display='none';}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function setStep(n){ for(var i=1;i<=4;i++){var el=document.getElementById('s'+i);el.classList.remove('active','done');if(i<n)el.classList.add('done');else if(i===n)el.classList.add('active');} }
+function showErr(msg){ var el=document.getElementById('errMsg');el.textContent=msg;el.style.display='block'; }
+function hideErr(){ document.getElementById('errMsg').style.display='none'; }
 </script>
-
-
-</body></html>
+</body>
+</html>
